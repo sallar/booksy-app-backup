@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "tslint 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "expo": "^35.0.0",
@@ -24,6 +25,9 @@
     "@types/react-native": "^0.57.65",
     "babel-preset-expo": "^7.0.0",
     "prettier": "^1.18.2",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react-hooks": "^2.2.1",
     "typescript": "^3.4.5"
   },
   "private": true
