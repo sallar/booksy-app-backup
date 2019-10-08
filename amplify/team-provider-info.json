@@ -1,0 +1,19 @@
+{
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "booksy-test-20191008210000-authRole",
+      "UnauthRoleArn": "arn:aws:iam::489972783034:role/booksy-test-20191008210000-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::489972783034:role/booksy-test-20191008210000-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "booksy-test-20191008210000-deployment",
+      "UnauthRoleName": "booksy-test-20191008210000-unauthRole",
+      "StackName": "booksy-test-20191008210000",
+      "StackId": "arn:aws:cloudformation:eu-west-1:489972783034:stack/booksy-test-20191008210000/7268f050-e9f5-11e9-80bf-060f8efab01c"
+    },
+    "categories": {
+      "auth": {
+        "booksyd3678f5dd3678f5d": {}
+      }
+    }
+  }
+}

@@ -4,6 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
+import Amplify from '@aws-amplify/core';
+
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+import config from './aws-exports.js';
+Amplify.configure(config);
+
 // export default function App() {
 //   return (
 //     <View style={styles.container}>
@@ -75,4 +82,8 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-export default createAppContainer(TabNavigator);
+export default withAuthenticator(createAppContainer(TabNavigator), {
+  signUpConfig: {
+    defaultCountryCode: '358',
+  },
+});

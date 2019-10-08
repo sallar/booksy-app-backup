@@ -11,6 +11,11 @@
     "lint": "tslint 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@aws-amplify/api": "^1.1.3",
+    "@aws-amplify/core": "^1.1.2",
+    "@aws-amplify/pubsub": "^1.1.2",
+    "aws-amplify": "^1.1.40",
+    "aws-amplify-react-native": "^2.1.19",
     "expo": "^35.0.0",
     "react": "16.10.2",
     "react-dom": "16.10.2",

@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "booksyd3678f5dd3678f5d": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
+  }
+}
