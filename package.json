@@ -17,6 +17,8 @@
     "aws-amplify": "^1.1.40",
     "aws-amplify-react-native": "^2.1.19",
     "expo": "^35.0.0",
+    "expo-font": "~7.0.0",
+    "native-base": "^2.13.8",
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
