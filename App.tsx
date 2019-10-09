@@ -1,7 +1,6 @@
 import Amplify from '@aws-amplify/core';
-import React from 'react';
 import config from './aws-exports.js';
-import AppStack from './AppStack';
+import AppStack from './src/components/screens/AppStack';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from './src/components/screens/SignIn';

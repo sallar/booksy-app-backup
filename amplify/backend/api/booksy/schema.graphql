@@ -1,16 +1,12 @@
-type Blog @model {
+type Shelf @model {
   id: ID!
-  name: String!
-  posts: [Post] @connection(name: "BlogPosts")
+  name: String
+  books: [ID!]
 }
-type Post @model {
+
+type Review @model {
   id: ID!
-  title: String!
-  blog: Blog @connection(name: "BlogPosts")
-  comments: [Comment] @connection(name: "PostComments")
-}
-type Comment @model {
-  id: ID!
-  content: String
-  post: Post @connection(name: "PostComments")
+  bookID: ID!
+  body: String!
+  rating: Int!
 }

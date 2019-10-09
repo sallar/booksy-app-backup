@@ -2,9 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { HomeScreen } from './src/components/screens/Home';
-import { LibraryScreen } from './src/components/screens/Library';
-import { SettingsScreen } from './src/components/screens/Settings';
+import { HomeScreen } from './Home';
+import { LibraryScreen } from './Library';
+import { SettingsScreen } from './Settings';
 
 const HomeNavigator = createStackNavigator({
   HomeScreen,
