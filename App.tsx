@@ -22,13 +22,13 @@ SignUpNavigation.navigationOptions = () => ({
 export default createAppContainer(
   createSwitchNavigator(
     {
-      // AuthLoading,
+      AuthLoading,
       App: AppStack,
       SignIn: SignInNavgigation,
       SignUp: SignUpNavigation,
     },
     {
-      // initialRouteName: 'AuthLoading',
+      initialRouteName: 'AuthLoading',
     }
   )
 );
