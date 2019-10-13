@@ -3,7 +3,7 @@ import React from 'react';
 import { validateEmail } from '../../utils/helpers';
 import { Auth } from 'aws-amplify';
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [username, setUsername] = React.useState('');
   const [usernameError, setUsernameError] = React.useState(false);
 
@@ -12,6 +12,9 @@ const SignUp = () => {
 
   const [email, setEmail] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
+
+  const [code, setCode] = React.useState('');
+  const [codeError, setCodeError] = React.useState(false);
 
   const [step, setStep] = React.useState(0);
 
@@ -33,16 +36,34 @@ const SignUp = () => {
     setEmailError(error);
   };
 
-  const signUp = () => {
-    Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email, // optional
-      },
-    })
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+  const changeCode = (text: string) => {
+    const error = text.length < 6;
+    setCode(text);
+    setCodeError(error);
+  };
+
+  const signUp = async () => {
+    try {
+      await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+        },
+      });
+      setStep(1);
+    } catch (err) {
+      console.error('Error signing up: ', err);
+    }
+  };
+
+  const confirmSignUp = async () => {
+    try {
+      Auth.confirmSignUp(username, code);
+      navigation.navigate('SignIn');
+    } catch (err) {
+      console.error('Error confirming signing up: ', err);
+    }
   };
 
   const signUpButtonEnabled =
@@ -52,6 +73,8 @@ const SignUp = () => {
     !passwordError &&
     email !== '' &&
     !emailError;
+
+  const confirmSignUpButtonEnabled = code !== '' && !codeError;
 
   return (
     <Container>
@@ -81,6 +104,29 @@ const SignUp = () => {
                 onPressOut={signUp}
               >
                 <Text>Sign Up</Text>
+              </Button>
+            </>
+          )}
+          {step === 1 && (
+            <>
+              <Item floatingLabel={true} error={usernameError}>
+                <Label>Username</Label>
+                <Input value={username} onChangeText={changeUsername} />
+                {usernameError && <Icon name="close-circle" />}
+              </Item>
+              <Item floatingLabel={true} error={codeError}>
+                <Label>Verification code</Label>
+                <Input value={code} onChangeText={changeCode} />
+                {codeError && <Icon name="close-circle" />}
+              </Item>
+
+              <Button
+                disabled={!confirmSignUpButtonEnabled}
+                full={true}
+                style={{ marginTop: 20 }}
+                onPressOut={confirmSignUp}
+              >
+                <Text>Confirm Sign Up</Text>
               </Button>
             </>
           )}
