@@ -5,5 +5,30 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": []
     }
+  },
+  "api": {
+    "booksy": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "description": "Booksy API",
+                "apiKeyExpirationDays": 180
+              }
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authbooksyAppAuth"
+            }
+          }
+        }
+      }
+    }
   }
 }
