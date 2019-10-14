@@ -1,5 +1,5 @@
 {
-  "projectName": "Booksy",
+  "projectName": "booksy-app",
   "version": "2.0",
   "frontend": "javascript",
   "javascript": {
@@ -8,7 +8,7 @@
       "SourceDir": "/",
       "DistributionDir": "/",
       "BuildCommand": "npm run-script build",
-      "StartCommand": "npm run-script start"
+      "StartCommand": "expo start"
     }
   },
   "providers": ["awscloudformation"]

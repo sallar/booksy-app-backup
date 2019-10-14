@@ -1,6 +1,6 @@
 {
   "auth": {
-    "booksyd3678f5dd3678f5d": {
+    "booksyAppAuth": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
@@ -16,7 +16,7 @@
             {
               "authenticationType": "API_KEY",
               "apiKeyConfig": {
-                "description": "Booksy API Key",
+                "description": "Booksy API",
                 "apiKeyExpirationDays": 180
               }
             }
@@ -24,7 +24,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authbooksyd3678f5dd3678f5d"
+              "userPoolId": "authbooksyAppAuth"
             }
           }
         }
