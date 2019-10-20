@@ -66,6 +66,14 @@ const SignUp = ({ navigation }) => {
     }
   };
 
+  const handleSignInClick = () => {
+    navigation.navigate('SignIn');
+  };
+
+  const handleVerificationRequet = () => {
+    setStep(1);
+  };
+
   const signUpButtonEnabled =
     username !== '' &&
     !usernameError &&
@@ -84,17 +92,35 @@ const SignUp = ({ navigation }) => {
             <>
               <Item floatingLabel={true} error={usernameError}>
                 <Label>Username</Label>
-                <Input value={username} onChangeText={changeUsername} />
+                <Input
+                  value={username}
+                  onChangeText={changeUsername}
+                  textContentType="username"
+                  autoCapitalize="none"
+                  autoCompleteType="off"
+                />
                 {usernameError && <Icon name="close-circle" />}
               </Item>
               <Item floatingLabel={true} error={passwordError}>
                 <Label>Password</Label>
-                <Input secureTextEntry={true} onChangeText={changePassword} value={password} />
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={changePassword}
+                  value={password}
+                  textContentType="password"
+                />
                 {passwordError && <Icon name="close-circle" />}
               </Item>
               <Item floatingLabel={true} error={emailError}>
                 <Label>Email</Label>
-                <Input onChangeText={changeEmail} value={email} />
+                <Input
+                  onChangeText={changeEmail}
+                  value={email}
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                />
                 {emailError && <Icon name="close-circle" />}
               </Item>
               <Button
@@ -131,6 +157,15 @@ const SignUp = ({ navigation }) => {
             </>
           )}
         </Form>
+
+        <Button transparent onPressOut={handleSignInClick}>
+          <Text>Have an account? Sign in.</Text>
+        </Button>
+        {step === 0 && (
+          <Button transparent onPressOut={handleVerificationRequet}>
+            <Text>Want to verify your account?</Text>
+          </Button>
+        )}
       </Content>
     </Container>
   );

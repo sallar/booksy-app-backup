@@ -5,6 +5,7 @@
     "object-literal-sort-keys": false,
     "interface-name": false,
     "member-ordering": false,
+    "jsx-boolean-value": false,
     "no-console": {
       "severity": "warning",
       "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
