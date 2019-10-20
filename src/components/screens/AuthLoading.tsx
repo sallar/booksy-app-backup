@@ -3,7 +3,7 @@ import React from 'react';
 
 const AuthLoading = ({ navigation }) => {
   React.useEffect(() => {
-    navigation.navigate('SignUp');
+    navigation.navigate('Auth');
   });
 
   return (
