@@ -1,108 +1,89 @@
 import React from 'react';
 import { Container, Content, Form, Item, Input, Label, Icon, Button, Text } from 'native-base';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { validateEmail } from '../../utils/helpers';
 import { Auth } from 'aws-amplify';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().required(),
+  email: yup
+    .string()
+    .email()
+    .required(),
+});
 
 const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
-  const [username, setUsername] = React.useState('');
-  const [usernameError, setUsernameError] = React.useState(false);
-
-  const [password, setPassword] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-
-  const [email, setEmail] = React.useState('');
-  const [emailError, setEmailError] = React.useState(false);
-
-  const changeUsername = (text: string) => {
-    setUsername(text);
-    const error = text.length < 4;
-    setUsernameError(error);
-  };
-
-  const changePassword = (text: string) => {
-    const error = text.length < 6;
-    setPassword(text);
-    setPasswordError(error);
-  };
-
-  const changeEmail = (text: string) => {
-    const error = validateEmail(text);
-    setEmail(text);
-    setEmailError(error);
-  };
-
-  const signUp = async () => {
-    try {
-      await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email,
-        },
-      });
-      navigation.navigate('SignUpVerify', {
-        username,
-      });
-    } catch (err) {
-      console.error('Error signing up: ', err);
-    }
-  };
-
-  const signUpButtonEnabled =
-    username !== '' &&
-    !usernameError &&
-    password !== '' &&
-    !passwordError &&
-    email !== '' &&
-    !emailError;
-
   return (
     <Container>
       <Content>
-        <Form>
-          <Item floatingLabel={true} error={usernameError}>
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChangeText={changeUsername}
-              textContentType="username"
-              autoCapitalize="none"
-              autoCompleteType="off"
-            />
-            {usernameError && <Icon name="close-circle" />}
-          </Item>
-          <Item floatingLabel={true} error={passwordError}>
-            <Label>Password</Label>
-            <Input
-              secureTextEntry={true}
-              onChangeText={changePassword}
-              value={password}
-              textContentType="password"
-            />
-            {passwordError && <Icon name="close-circle" />}
-          </Item>
-          <Item floatingLabel={true} error={emailError}>
-            <Label>Email</Label>
-            <Input
-              onChangeText={changeEmail}
-              value={email}
-              textContentType="emailAddress"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCompleteType="email"
-            />
-            {emailError && <Icon name="close-circle" />}
-          </Item>
-          <Button
-            disabled={!signUpButtonEnabled}
-            full={true}
-            style={{ marginTop: 20 }}
-            onPressOut={signUp}
-          >
-            <Text>Sign Up</Text>
-          </Button>
-        </Form>
+        <Formik
+          validationSchema={schema}
+          initialValues={{ username: '', password: '', email: '' }}
+          onSubmit={async ({ username, password, email }) => {
+            try {
+              await Auth.signUp({
+                username,
+                password,
+                attributes: {
+                  email,
+                },
+              });
+              navigation.navigate('SignUpVerify', {
+                username,
+              });
+            } catch (err) {
+              console.error('Error signing up: ', err);
+            }
+          }}
+        >
+          {props => (
+            <Form>
+              <Item floatingLabel={true} error={props.errors.username && props.touched.username}>
+                <Label>Username</Label>
+                <Input
+                  value={props.values.username}
+                  onChangeText={props.handleChange('username')}
+                  onBlur={props.handleBlur('username')}
+                  textContentType="username"
+                  autoCapitalize="none"
+                  autoCompleteType="off"
+                />
+              </Item>
+              <Item floatingLabel={true} error={props.errors.password && props.touched.password}>
+                <Label>Password</Label>
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={props.handleChange('password')}
+                  onBlur={props.handleBlur('password')}
+                  value={props.values.password}
+                  textContentType="password"
+                />
+              </Item>
+              <Item floatingLabel={true} error={props.errors.email && props.touched.email}>
+                <Label>Email</Label>
+                <Input
+                  onChangeText={props.handleChange('email')}
+                  onBlur={props.handleBlur('email')}
+                  value={props.values.email}
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                />
+              </Item>
+              <Button
+                disabled={!props.isValid}
+                full={true}
+                style={{ marginTop: 20 }}
+                onPress={props.handleSubmit}
+              >
+                <Text>Sign Up</Text>
+              </Button>
+            </Form>
+          )}
+        </Formik>
 
         <Button
           transparent
