@@ -5,6 +5,7 @@ export const getShelf = `query GetShelf($id: ID!) {
   getShelf(id: $id) {
     id
     name
+    key
     books {
       items {
         id
@@ -24,6 +25,7 @@ export const listShelfs = `query ListShelfs(
     items {
       id
       name
+      key
       books {
         nextToken
       }

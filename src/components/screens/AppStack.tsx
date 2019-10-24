@@ -15,7 +15,7 @@ HomeNavigator.navigationOptions = () => ({
 
 const LibraryNavigator = createStackNavigator({ LibraryScreen });
 LibraryNavigator.navigationOptions = () => ({
-  title: 'Library',
+  title: 'Book Shelves',
 });
 
 const SettingsNavigator = createStackNavigator({ SettingsScreen });
@@ -41,8 +41,6 @@ const AppStack = createBottomTabNavigator(
         } else if (routeName === 'LibraryNavigator') {
           iconName = `ios-book`;
         }
-
-        // You can return any component that you like here!
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
     }),

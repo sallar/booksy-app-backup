@@ -4,11 +4,13 @@
 export type CreateShelfInput = {
   id?: string | null;
   name?: string | null;
+  key?: string | null;
 };
 
 export type UpdateShelfInput = {
   id: string;
   name?: string | null;
+  key?: string | null;
 };
 
 export type DeleteShelfInput = {
@@ -131,6 +133,7 @@ export type DeleteBookInput = {
 export type ModelShelfFilterInput = {
   id?: ModelIDFilterInput | null;
   name?: ModelStringFilterInput | null;
+  key?: ModelStringFilterInput | null;
   and?: Array<ModelShelfFilterInput | null> | null;
   or?: Array<ModelShelfFilterInput | null> | null;
   not?: ModelShelfFilterInput | null;
@@ -222,6 +225,7 @@ export type CreateShelfMutation = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -243,6 +247,7 @@ export type UpdateShelfMutation = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -264,6 +269,7 @@ export type DeleteShelfMutation = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -288,6 +294,7 @@ export type CreateShelfBookMutation = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -370,6 +377,7 @@ export type UpdateShelfBookMutation = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -452,6 +460,7 @@ export type DeleteShelfBookMutation = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -792,6 +801,7 @@ export type GetShelfQuery = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -817,6 +827,7 @@ export type ListShelfsQuery = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -1018,6 +1029,7 @@ export type OnCreateShelfSubscription = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -1039,6 +1051,7 @@ export type OnUpdateShelfSubscription = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -1060,6 +1073,7 @@ export type OnDeleteShelfSubscription = {
     __typename: 'Shelf';
     id: string;
     name: string | null;
+    key: string | null;
     books: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
@@ -1080,6 +1094,7 @@ export type OnCreateShelfBookSubscription = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -1158,6 +1173,7 @@ export type OnUpdateShelfBookSubscription = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
@@ -1236,6 +1252,7 @@ export type OnDeleteShelfBookSubscription = {
       __typename: 'Shelf';
       id: string;
       name: string | null;
+      key: string | null;
       books: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;

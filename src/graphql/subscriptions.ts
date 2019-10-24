@@ -5,6 +5,7 @@ export const onCreateShelf = `subscription OnCreateShelf($owner: String!) {
   onCreateShelf(owner: $owner) {
     id
     name
+    key
     books {
       items {
         id
@@ -19,6 +20,7 @@ export const onUpdateShelf = `subscription OnUpdateShelf($owner: String!) {
   onUpdateShelf(owner: $owner) {
     id
     name
+    key
     books {
       items {
         id
@@ -33,6 +35,7 @@ export const onDeleteShelf = `subscription OnDeleteShelf($owner: String!) {
   onDeleteShelf(owner: $owner) {
     id
     name
+    key
     books {
       items {
         id
@@ -49,6 +52,7 @@ export const onCreateShelfBook = `subscription OnCreateShelfBook {
     shelf {
       id
       name
+      key
       books {
         nextToken
       }
@@ -115,6 +119,7 @@ export const onUpdateShelfBook = `subscription OnUpdateShelfBook {
     shelf {
       id
       name
+      key
       books {
         nextToken
       }
@@ -181,6 +186,7 @@ export const onDeleteShelfBook = `subscription OnDeleteShelfBook {
     shelf {
       id
       name
+      key
       books {
         nextToken
       }

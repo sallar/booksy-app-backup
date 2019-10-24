@@ -5,6 +5,7 @@ export const createShelf = `mutation CreateShelf($input: CreateShelfInput!) {
   createShelf(input: $input) {
     id
     name
+    key
     books {
       items {
         id
@@ -19,6 +20,7 @@ export const updateShelf = `mutation UpdateShelf($input: UpdateShelfInput!) {
   updateShelf(input: $input) {
     id
     name
+    key
     books {
       items {
         id
@@ -33,6 +35,7 @@ export const deleteShelf = `mutation DeleteShelf($input: DeleteShelfInput!) {
   deleteShelf(input: $input) {
     id
     name
+    key
     books {
       items {
         id
@@ -49,6 +52,7 @@ export const createShelfBook = `mutation CreateShelfBook($input: CreateShelfBook
     shelf {
       id
       name
+      key
       books {
         nextToken
       }
@@ -115,6 +119,7 @@ export const updateShelfBook = `mutation UpdateShelfBook($input: UpdateShelfBook
     shelf {
       id
       name
+      key
       books {
         nextToken
       }
@@ -181,6 +186,7 @@ export const deleteShelfBook = `mutation DeleteShelfBook($input: DeleteShelfBook
     shelf {
       id
       name
+      key
       books {
         nextToken
       }

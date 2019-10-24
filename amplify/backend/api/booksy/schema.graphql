@@ -1,6 +1,7 @@
 type Shelf @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String
+  key: String
   books: [ShelfBook] @connection(name: "ShelfBooks")
   # books: [Book] @connection(name: "ShelfBooks")
 }
