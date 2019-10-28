@@ -20,31 +20,45 @@ export type DeleteShelfInput = {
 export type CreateShelfBookInput = {
   id?: string | null;
   shelfBookShelfId: string;
-  shelfBookBookId: string;
+  shelfBookUserBookId: string;
 };
 
 export type UpdateShelfBookInput = {
   id: string;
   shelfBookShelfId?: string | null;
-  shelfBookBookId?: string | null;
+  shelfBookUserBookId?: string | null;
 };
 
 export type DeleteShelfBookInput = {
   id?: string | null;
 };
 
-export type CreateReviewInput = {
+export type CreateUserBookInput = {
   id?: string | null;
   bookId: string;
+};
+
+export type UpdateUserBookInput = {
+  id: string;
+  bookId?: string | null;
+};
+
+export type DeleteUserBookInput = {
+  id?: string | null;
+};
+
+export type CreateReviewInput = {
+  id?: string | null;
   body: string;
   rating: number;
+  bookId: string;
 };
 
 export type UpdateReviewInput = {
   id: string;
-  bookId?: string | null;
   body?: string | null;
   rating?: number | null;
+  bookId?: string | null;
 };
 
 export type DeleteReviewInput = {
@@ -55,75 +69,12 @@ export type CreateBookInput = {
   id?: string | null;
   title: string;
   subtitle: string;
-  fullTitle: string;
-  series?: Array<string> | null;
-  editionName?: string | null;
-  localId?: Array<string> | null;
-  lcClassifications?: Array<string> | null;
-  revision: number;
-  latestRevision: number;
-  sourceRecords?: Array<string> | null;
-  languages?: Array<ReferenceInput | null> | null;
-  subjects?: Array<string> | null;
-  publishCountry: string;
-  byStatement?: string | null;
-  oclcNumbers?: Array<string> | null;
-  type: ReferenceInput;
-  description: TypeReferenceInput;
-  lastModified: TypeReferenceInput;
-  key: string;
-  authors: Array<ReferenceInput>;
-  pagination: string;
-  created: TypeReferenceInput;
-  numberOfPages: number;
-  deweyDecimalClass?: Array<string> | null;
-  isbn13: Array<string>;
-  isbn10: Array<string>;
-  subjectPlaces?: Array<string> | null;
-  publishDate: string;
-  works: Array<ReferenceInput>;
-};
-
-export type ReferenceInput = {
-  key: string;
-};
-
-export type TypeReferenceInput = {
-  type: string;
-  value: string;
 };
 
 export type UpdateBookInput = {
   id: string;
   title?: string | null;
   subtitle?: string | null;
-  fullTitle?: string | null;
-  series?: Array<string> | null;
-  editionName?: string | null;
-  localId?: Array<string> | null;
-  lcClassifications?: Array<string> | null;
-  revision?: number | null;
-  latestRevision?: number | null;
-  sourceRecords?: Array<string> | null;
-  languages?: Array<ReferenceInput | null> | null;
-  subjects?: Array<string> | null;
-  publishCountry?: string | null;
-  byStatement?: string | null;
-  oclcNumbers?: Array<string> | null;
-  type?: ReferenceInput | null;
-  description?: TypeReferenceInput | null;
-  lastModified?: TypeReferenceInput | null;
-  key?: string | null;
-  authors?: Array<ReferenceInput> | null;
-  pagination?: string | null;
-  created?: TypeReferenceInput | null;
-  numberOfPages?: number | null;
-  deweyDecimalClass?: Array<string> | null;
-  isbn13?: Array<string> | null;
-  isbn10?: Array<string> | null;
-  subjectPlaces?: Array<string> | null;
-  publishDate?: string | null;
-  works?: Array<ReferenceInput> | null;
 };
 
 export type DeleteBookInput = {
@@ -165,9 +116,15 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null;
 };
 
+export type ModelUserBookFilterInput = {
+  id?: ModelIDFilterInput | null;
+  and?: Array<ModelUserBookFilterInput | null> | null;
+  or?: Array<ModelUserBookFilterInput | null> | null;
+  not?: ModelUserBookFilterInput | null;
+};
+
 export type ModelReviewFilterInput = {
   id?: ModelIDFilterInput | null;
-  bookId?: ModelIDFilterInput | null;
   body?: ModelStringFilterInput | null;
   rating?: ModelIntFilterInput | null;
   and?: Array<ModelReviewFilterInput | null> | null;
@@ -191,26 +148,6 @@ export type ModelBookFilterInput = {
   id?: ModelIDFilterInput | null;
   title?: ModelStringFilterInput | null;
   subtitle?: ModelStringFilterInput | null;
-  fullTitle?: ModelStringFilterInput | null;
-  series?: ModelStringFilterInput | null;
-  editionName?: ModelStringFilterInput | null;
-  localId?: ModelStringFilterInput | null;
-  lcClassifications?: ModelStringFilterInput | null;
-  revision?: ModelIntFilterInput | null;
-  latestRevision?: ModelIntFilterInput | null;
-  sourceRecords?: ModelStringFilterInput | null;
-  subjects?: ModelStringFilterInput | null;
-  publishCountry?: ModelStringFilterInput | null;
-  byStatement?: ModelStringFilterInput | null;
-  oclcNumbers?: ModelStringFilterInput | null;
-  key?: ModelStringFilterInput | null;
-  pagination?: ModelStringFilterInput | null;
-  numberOfPages?: ModelIntFilterInput | null;
-  deweyDecimalClass?: ModelStringFilterInput | null;
-  isbn13?: ModelStringFilterInput | null;
-  isbn10?: ModelStringFilterInput | null;
-  subjectPlaces?: ModelStringFilterInput | null;
-  publishDate?: ModelStringFilterInput | null;
   and?: Array<ModelBookFilterInput | null> | null;
   or?: Array<ModelBookFilterInput | null> | null;
   not?: ModelBookFilterInput | null;
@@ -226,7 +163,7 @@ export type CreateShelfMutation = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -248,7 +185,7 @@ export type UpdateShelfMutation = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -270,7 +207,7 @@ export type DeleteShelfMutation = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -295,72 +232,26 @@ export type CreateShelfBookMutation = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
-    book: {
-      __typename: 'Book';
+    userBook: {
+      __typename: 'UserBook';
       id: string;
-      title: string;
-      subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
       };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
       shelves: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
+      owner: string | null;
     };
   } | null;
 };
@@ -378,72 +269,26 @@ export type UpdateShelfBookMutation = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
-    book: {
-      __typename: 'Book';
+    userBook: {
+      __typename: 'UserBook';
       id: string;
-      title: string;
-      subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
       };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
       shelves: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
+      owner: string | null;
     };
   } | null;
 };
@@ -461,73 +306,105 @@ export type DeleteShelfBookMutation = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
+    userBook: {
+      __typename: 'UserBook';
+      id: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
+      };
+      shelves: {
+        __typename: 'ModelShelfBookConnection';
+        nextToken: string | null;
+      } | null;
+      owner: string | null;
+    };
+  } | null;
+};
+
+export type CreateUserBookMutationVariables = {
+  input: CreateUserBookInput;
+};
+
+export type CreateUserBookMutation = {
+  createUserBook: {
+    __typename: 'UserBook';
+    id: string;
     book: {
       __typename: 'Book';
       id: string;
       title: string;
       subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
-      };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      shelves: {
-        __typename: 'ModelShelfBookConnection';
-        nextToken: string | null;
-      } | null;
     };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
+  } | null;
+};
+
+export type UpdateUserBookMutationVariables = {
+  input: UpdateUserBookInput;
+};
+
+export type UpdateUserBookMutation = {
+  updateUserBook: {
+    __typename: 'UserBook';
+    id: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
+  } | null;
+};
+
+export type DeleteUserBookMutationVariables = {
+  input: DeleteUserBookInput;
+};
+
+export type DeleteUserBookMutation = {
+  deleteUserBook: {
+    __typename: 'UserBook';
+    id: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
   } | null;
 };
 
@@ -539,7 +416,12 @@ export type CreateReviewMutation = {
   createReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -554,7 +436,12 @@ export type UpdateReviewMutation = {
   updateReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -569,7 +456,12 @@ export type DeleteReviewMutation = {
   deleteReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -586,65 +478,6 @@ export type CreateBookMutation = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -658,65 +491,6 @@ export type UpdateBookMutation = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -730,65 +504,6 @@ export type DeleteBookMutation = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -802,7 +517,7 @@ export type GetShelfQuery = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -828,7 +543,61 @@ export type ListShelfsQuery = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
+        __typename: 'ModelShelfBookConnection';
+        nextToken: string | null;
+      } | null;
+      owner: string | null;
+    } | null> | null;
+    nextToken: string | null;
+  } | null;
+};
+
+export type GetUserBookQueryVariables = {
+  id: string;
+};
+
+export type GetUserBookQuery = {
+  getUserBook: {
+    __typename: 'UserBook';
+    id: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
+  } | null;
+};
+
+export type ListUserBooksQueryVariables = {
+  filter?: ModelUserBookFilterInput | null;
+  limit?: number | null;
+  nextToken?: string | null;
+};
+
+export type ListUserBooksQuery = {
+  listUserBooks: {
+    __typename: 'ModelUserBookConnection';
+    items: Array<{
+      __typename: 'UserBook';
+      id: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
+      };
+      shelves: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
@@ -846,7 +615,12 @@ export type GetReviewQuery = {
   getReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -865,7 +639,12 @@ export type ListReviewsQuery = {
     items: Array<{
       __typename: 'Review';
       id: string;
-      bookId: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
+      };
       body: string;
       rating: number;
       owner: string | null;
@@ -884,65 +663,6 @@ export type GetBookQuery = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -960,61 +680,6 @@ export type ListBooksQuery = {
       id: string;
       title: string;
       subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
-      };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      shelves: {
-        __typename: 'ModelShelfBookConnection';
-        nextToken: string | null;
-      } | null;
     } | null> | null;
     nextToken: string | null;
   } | null;
@@ -1030,7 +695,7 @@ export type OnCreateShelfSubscription = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -1052,7 +717,7 @@ export type OnUpdateShelfSubscription = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -1074,7 +739,7 @@ export type OnDeleteShelfSubscription = {
     id: string;
     name: string | null;
     key: string | null;
-    books: {
+    userBooks: {
       __typename: 'ModelShelfBookConnection';
       items: Array<{
         __typename: 'ShelfBook';
@@ -1095,72 +760,26 @@ export type OnCreateShelfBookSubscription = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
-    book: {
-      __typename: 'Book';
+    userBook: {
+      __typename: 'UserBook';
       id: string;
-      title: string;
-      subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
       };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
       shelves: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
+      owner: string | null;
     };
   } | null;
 };
@@ -1174,72 +793,26 @@ export type OnUpdateShelfBookSubscription = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
-    book: {
-      __typename: 'Book';
+    userBook: {
+      __typename: 'UserBook';
       id: string;
-      title: string;
-      subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
       };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
       shelves: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
+      owner: string | null;
     };
   } | null;
 };
@@ -1253,73 +826,105 @@ export type OnDeleteShelfBookSubscription = {
       id: string;
       name: string | null;
       key: string | null;
-      books: {
+      userBooks: {
         __typename: 'ModelShelfBookConnection';
         nextToken: string | null;
       } | null;
       owner: string | null;
     };
+    userBook: {
+      __typename: 'UserBook';
+      id: string;
+      book: {
+        __typename: 'Book';
+        id: string;
+        title: string;
+        subtitle: string;
+      };
+      shelves: {
+        __typename: 'ModelShelfBookConnection';
+        nextToken: string | null;
+      } | null;
+      owner: string | null;
+    };
+  } | null;
+};
+
+export type OnCreateUserBookSubscriptionVariables = {
+  owner: string;
+};
+
+export type OnCreateUserBookSubscription = {
+  onCreateUserBook: {
+    __typename: 'UserBook';
+    id: string;
     book: {
       __typename: 'Book';
       id: string;
       title: string;
       subtitle: string;
-      fullTitle: string;
-      series: Array<string> | null;
-      editionName: string | null;
-      localId: Array<string> | null;
-      lcClassifications: Array<string> | null;
-      revision: number;
-      latestRevision: number;
-      sourceRecords: Array<string> | null;
-      languages: Array<{
-        __typename: 'Reference';
-        key: string;
-      } | null> | null;
-      subjects: Array<string> | null;
-      publishCountry: string;
-      byStatement: string | null;
-      oclcNumbers: Array<string> | null;
-      type: {
-        __typename: 'Reference';
-        key: string;
-      };
-      description: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      lastModified: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      key: string;
-      authors: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      pagination: string;
-      created: {
-        __typename: 'TypeReference';
-        type: string;
-        value: string;
-      };
-      numberOfPages: number;
-      deweyDecimalClass: Array<string> | null;
-      isbn13: Array<string>;
-      isbn10: Array<string>;
-      subjectPlaces: Array<string> | null;
-      publishDate: string;
-      works: Array<{
-        __typename: 'Reference';
-        key: string;
-      }>;
-      shelves: {
-        __typename: 'ModelShelfBookConnection';
-        nextToken: string | null;
-      } | null;
     };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
+  } | null;
+};
+
+export type OnUpdateUserBookSubscriptionVariables = {
+  owner: string;
+};
+
+export type OnUpdateUserBookSubscription = {
+  onUpdateUserBook: {
+    __typename: 'UserBook';
+    id: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
+  } | null;
+};
+
+export type OnDeleteUserBookSubscriptionVariables = {
+  owner: string;
+};
+
+export type OnDeleteUserBookSubscription = {
+  onDeleteUserBook: {
+    __typename: 'UserBook';
+    id: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
+    shelves: {
+      __typename: 'ModelShelfBookConnection';
+      items: Array<{
+        __typename: 'ShelfBook';
+        id: string;
+      } | null> | null;
+      nextToken: string | null;
+    } | null;
+    owner: string | null;
   } | null;
 };
 
@@ -1331,7 +936,12 @@ export type OnCreateReviewSubscription = {
   onCreateReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -1346,7 +956,12 @@ export type OnUpdateReviewSubscription = {
   onUpdateReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -1361,7 +976,12 @@ export type OnDeleteReviewSubscription = {
   onDeleteReview: {
     __typename: 'Review';
     id: string;
-    bookId: string;
+    book: {
+      __typename: 'Book';
+      id: string;
+      title: string;
+      subtitle: string;
+    };
     body: string;
     rating: number;
     owner: string | null;
@@ -1374,65 +994,6 @@ export type OnCreateBookSubscription = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -1442,65 +1003,6 @@ export type OnUpdateBookSubscription = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };
 
@@ -1510,64 +1012,5 @@ export type OnDeleteBookSubscription = {
     id: string;
     title: string;
     subtitle: string;
-    fullTitle: string;
-    series: Array<string> | null;
-    editionName: string | null;
-    localId: Array<string> | null;
-    lcClassifications: Array<string> | null;
-    revision: number;
-    latestRevision: number;
-    sourceRecords: Array<string> | null;
-    languages: Array<{
-      __typename: 'Reference';
-      key: string;
-    } | null> | null;
-    subjects: Array<string> | null;
-    publishCountry: string;
-    byStatement: string | null;
-    oclcNumbers: Array<string> | null;
-    type: {
-      __typename: 'Reference';
-      key: string;
-    };
-    description: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    lastModified: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    key: string;
-    authors: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    pagination: string;
-    created: {
-      __typename: 'TypeReference';
-      type: string;
-      value: string;
-    };
-    numberOfPages: number;
-    deweyDecimalClass: Array<string> | null;
-    isbn13: Array<string>;
-    isbn10: Array<string>;
-    subjectPlaces: Array<string> | null;
-    publishDate: string;
-    works: Array<{
-      __typename: 'Reference';
-      key: string;
-    }>;
-    shelves: {
-      __typename: 'ModelShelfBookConnection';
-      items: Array<{
-        __typename: 'ShelfBook';
-        id: string;
-      } | null> | null;
-      nextToken: string | null;
-    } | null;
   } | null;
 };

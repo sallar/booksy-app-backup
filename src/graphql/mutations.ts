@@ -6,7 +6,7 @@ export const createShelf = `mutation CreateShelf($input: CreateShelfInput!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -21,7 +21,7 @@ export const updateShelf = `mutation UpdateShelf($input: UpdateShelfInput!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -36,7 +36,7 @@ export const deleteShelf = `mutation DeleteShelf($input: DeleteShelfInput!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -53,62 +53,22 @@ export const createShelfBook = `mutation CreateShelfBook($input: CreateShelfBook
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
   }
 }
@@ -120,62 +80,22 @@ export const updateShelfBook = `mutation UpdateShelfBook($input: UpdateShelfBook
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
   }
 }
@@ -187,70 +107,88 @@ export const deleteShelfBook = `mutation DeleteShelfBook($input: DeleteShelfBook
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
+  }
+}
+`;
+export const createUserBook = `mutation CreateUserBook($input: CreateUserBookInput!) {
+  createUserBook(input: $input) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const updateUserBook = `mutation UpdateUserBook($input: UpdateUserBookInput!) {
+  updateUserBook(input: $input) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const deleteUserBook = `mutation DeleteUserBook($input: DeleteUserBookInput!) {
+  deleteUserBook(input: $input) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
   }
 }
 `;
 export const createReview = `mutation CreateReview($input: CreateReviewInput!) {
   createReview(input: $input) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -260,7 +198,11 @@ export const createReview = `mutation CreateReview($input: CreateReviewInput!) {
 export const updateReview = `mutation UpdateReview($input: UpdateReviewInput!) {
   updateReview(input: $input) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -270,7 +212,11 @@ export const updateReview = `mutation UpdateReview($input: UpdateReviewInput!) {
 export const deleteReview = `mutation DeleteReview($input: DeleteReviewInput!) {
   deleteReview(input: $input) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -282,56 +228,6 @@ export const createBook = `mutation CreateBook($input: CreateBookInput!) {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
@@ -340,56 +236,6 @@ export const updateBook = `mutation UpdateBook($input: UpdateBookInput!) {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
@@ -398,56 +244,6 @@ export const deleteBook = `mutation DeleteBook($input: DeleteBookInput!) {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;

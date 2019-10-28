@@ -2,19 +2,24 @@ type Shelf @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String
   key: String
-  books: [ShelfBook] @connection(name: "ShelfBooks")
-  # books: [Book] @connection(name: "ShelfBooks")
+  userBooks: [ShelfBook] @connection(name: "shelfBooks")
 }
 
 type ShelfBook @model(queries: null) {
   id: ID!
-  shelf: Shelf! @connection(name: "ShelfBooks")
-  book: Book! @connection(name: "BookShelfs")
+  shelf: Shelf! @connection(name: "shelfBooks")
+  userBook: UserBook! @connection(name: "bookShelves")
+}
+
+type UserBook @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  book: Book! @connection
+  shelves: [ShelfBook] @connection(name: "bookShelves")
 }
 
 type Review @model @auth(rules: [{ allow: owner }]) {
   id: ID!
-  bookId: ID!
+  book: Book! @connection
   body: String!
   rating: Int!
 }
@@ -59,5 +64,4 @@ type Book @model {
   subjectPlaces: [String!]
   publishDate: String!
   works: [Reference!]!
-  shelves: [ShelfBook] @connection(name: "BookShelfs")
 }

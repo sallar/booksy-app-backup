@@ -6,7 +6,7 @@ export const onCreateShelf = `subscription OnCreateShelf($owner: String!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -21,7 +21,7 @@ export const onUpdateShelf = `subscription OnUpdateShelf($owner: String!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -36,7 +36,7 @@ export const onDeleteShelf = `subscription OnDeleteShelf($owner: String!) {
     id
     name
     key
-    books {
+    userBooks {
       items {
         id
       }
@@ -53,62 +53,22 @@ export const onCreateShelfBook = `subscription OnCreateShelfBook {
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
   }
 }
@@ -120,62 +80,22 @@ export const onUpdateShelfBook = `subscription OnUpdateShelfBook {
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
   }
 }
@@ -187,70 +107,88 @@ export const onDeleteShelfBook = `subscription OnDeleteShelfBook {
       id
       name
       key
-      books {
+      userBooks {
         nextToken
       }
       owner
     }
-    book {
+    userBook {
       id
-      title
-      subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
+      book {
+        id
+        title
+        subtitle
       }
       shelves {
         nextToken
       }
+      owner
     }
+  }
+}
+`;
+export const onCreateUserBook = `subscription OnCreateUserBook($owner: String!) {
+  onCreateUserBook(owner: $owner) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const onUpdateUserBook = `subscription OnUpdateUserBook($owner: String!) {
+  onUpdateUserBook(owner: $owner) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const onDeleteUserBook = `subscription OnDeleteUserBook($owner: String!) {
+  onDeleteUserBook(owner: $owner) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
   }
 }
 `;
 export const onCreateReview = `subscription OnCreateReview($owner: String!) {
   onCreateReview(owner: $owner) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -260,7 +198,11 @@ export const onCreateReview = `subscription OnCreateReview($owner: String!) {
 export const onUpdateReview = `subscription OnUpdateReview($owner: String!) {
   onUpdateReview(owner: $owner) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -270,7 +212,11 @@ export const onUpdateReview = `subscription OnUpdateReview($owner: String!) {
 export const onDeleteReview = `subscription OnDeleteReview($owner: String!) {
   onDeleteReview(owner: $owner) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -282,56 +228,6 @@ export const onCreateBook = `subscription OnCreateBook {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
@@ -340,56 +236,6 @@ export const onUpdateBook = `subscription OnUpdateBook {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
@@ -398,56 +244,6 @@ export const onDeleteBook = `subscription OnDeleteBook {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
