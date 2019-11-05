@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout, Text, Button, Input } from 'react-native-ui-kitten';
-import { Container, Content, Form, Item, Label, Icon } from 'native-base';
+import { Layout, Button, Input, Icon, StyleType } from 'react-native-ui-kitten';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { View } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -13,6 +13,13 @@ const schema = yup.object().shape({
 });
 
 const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
+  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const passwordRef = React.useRef<any>();
+
+  const renderIcon = (style: StyleType) => (
+    <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
+  );
+
   return (
     <Layout style={globalStyles.container}>
       <Formik
@@ -26,6 +33,7 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
         {props => (
           <>
             <Input
+              style={globalStyles.input}
               value={props.values.username}
               onChangeText={props.handleChange('username')}
               onBlur={props.handleBlur('username')}
@@ -33,41 +41,43 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
               textContentType="username"
               autoCapitalize="none"
               placeholder="Username"
-              caption={props.touched.username && props.errors.username}
-              status={props.touched.username && props.errors.username ? 'danger' : 'primary'}
+              autoFocus
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
             />
-
             <Input
+              style={globalStyles.input}
               value={props.values.password}
               onChangeText={props.handleChange('password')}
               onBlur={props.handleBlur('password')}
-              secureTextEntry
+              secureTextEntry={secureTextEntry}
+              icon={renderIcon}
+              onIconPress={() => setSecureTextEntry(!secureTextEntry)}
               textContentType="password"
               placeholder="Password"
-              caption={props.touched.password && props.errors.password}
-              status={props.touched.password && props.errors.password ? 'danger' : 'primary'}
+              ref={passwordRef}
+              enablesReturnKeyAutomatically={true}
+              returnKeyType="done"
+              onSubmitEditing={() => props.handleSubmit()}
             />
-            <Button
-              style={{ marginTop: 20 }}
-              onPress={e => {
-                props.handleSubmit();
-              }}
-              disabled={!props.isValid}
-            >
-              Sign In
-            </Button>
+            <View style={globalStyles.spacer}>
+              <Button onPress={() => props.handleSubmit()} disabled={!props.isValid}>
+                Sign In
+              </Button>
+              <View style={globalStyles.spacer}>
+                <Button
+                  appearance="ghost"
+                  status="basic"
+                  size="small"
+                  onPress={() => navigation.navigate('SignUp')}
+                >
+                  Don't have an account? Create one.
+                </Button>
+              </View>
+            </View>
           </>
         )}
       </Formik>
-      <Button
-        appearance="ghost"
-        style={{ marginTop: 10 }}
-        onPressOut={() => {
-          navigation.navigate('SignUp');
-        }}
-      >
-        Don't have an account? Create one.
-      </Button>
     </Layout>
   );
 };
