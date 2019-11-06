@@ -5,23 +5,42 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { HomeScreen } from './Home';
 import { LibraryScreen } from './Library';
 import { SettingsScreen } from './Settings';
+import { getNavigationOptions } from '../NavigationBar';
+import { getThemeColor } from '../../utils/theme';
 
-const HomeNavigator = createStackNavigator({
-  HomeScreen,
-});
-HomeNavigator.navigationOptions = () => ({
-  title: 'Home',
-});
+const defaultNavigationOptions = ({ theme }) => getNavigationOptions(theme);
 
-const LibraryNavigator = createStackNavigator({ LibraryScreen });
-LibraryNavigator.navigationOptions = () => ({
-  title: 'Book Shelves',
-});
+const HomeNavigator = createStackNavigator(
+  {
+    HomeScreen,
+  },
+  {
+    defaultNavigationOptions,
+    navigationOptions: {
+      title: 'Home',
+    },
+  }
+);
 
-const SettingsNavigator = createStackNavigator({ SettingsScreen });
-SettingsNavigator.navigationOptions = () => ({
-  title: 'Profile',
-});
+const LibraryNavigator = createStackNavigator(
+  { LibraryScreen },
+  {
+    defaultNavigationOptions,
+    navigationOptions: {
+      title: 'Book Shelves',
+    },
+  }
+);
+
+const SettingsNavigator = createStackNavigator(
+  { SettingsScreen },
+  {
+    defaultNavigationOptions,
+    navigationOptions: {
+      title: 'Profile',
+    },
+  }
+);
 
 const AppStack = createBottomTabNavigator(
   {
@@ -45,8 +64,14 @@ const AppStack = createBottomTabNavigator(
       },
     }),
     tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
+      activeTintColor: {
+        dark: getThemeColor('dark', 'text-basic-color'),
+        light: getThemeColor('light', 'text-basic-color'),
+      },
+      inactiveTintColor: {
+        dark: getThemeColor('dark', 'color-basic-disabled'),
+        light: getThemeColor('light', 'color-basic-disabled'),
+      },
     },
   }
 );

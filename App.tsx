@@ -4,23 +4,24 @@ import Amplify from '@aws-amplify/core';
 import { mapping, light, dark } from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
-import config from './aws-exports.js';
-import AppStack from './src/components/screens/AppStack';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
-import { createStackNavigator, HeaderProps } from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
+import AppStack from './src/components/screens/AppStack';
 import SignIn from './src/components/screens/SignIn';
 import SignUp from './src/components/screens/SignUp';
 import SignUpVerify from './src/components/screens/SignUpVerify';
 import AuthLoading from './src/components/screens/AuthLoading';
+import { StyledHeader, getNavigationOptions } from './src/components/NavigationBar';
+import config from './aws-exports.js';
 
 Amplify.configure(config);
 
-const SignInNavgigation = createStackNavigator({ SignIn });
-SignInNavgigation.navigationOptions = () => ({
-  title: 'Authenticate',
-});
-
-const AuthStack = createStackNavigator({ SignIn, SignUp, SignUpVerify });
+const AuthStack = createStackNavigator(
+  { SignIn, SignUp, SignUpVerify },
+  {
+    defaultNavigationOptions: ({ theme }) => getNavigationOptions(theme),
+  }
+);
 
 const AppContainer = createAppContainer(
   createSwitchNavigator(
