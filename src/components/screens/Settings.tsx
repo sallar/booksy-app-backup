@@ -1,27 +1,16 @@
 import React from 'react';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { View } from 'react-native';
-import { Button, Text } from 'native-base';
-import { Auth } from 'aws-amplify';
 import { globalStyles } from '../../styles/global';
+import { Layout, Text } from 'react-native-ui-kitten';
 
 export const SettingsScreen: NavigationStackScreenComponent = ({ navigation }) => {
   return (
-    <View style={globalStyles.container}>
+    <Layout style={globalStyles.container}>
       <Text>Settings</Text>
-
-      <Button
-        onPressOut={() => {
-          Auth.signOut();
-          navigation.navigate('AuthLoading');
-        }}
-      >
-        <Text>Logout</Text>
-      </Button>
-    </View>
+    </Layout>
   );
 };
 
 SettingsScreen.navigationOptions = () => ({
-  title: 'Profile',
+  title: 'Settings',
 });

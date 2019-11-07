@@ -18,6 +18,8 @@ const schema = yup.object().shape({
 
 const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const passwordRef = React.useRef<any>();
+  const emailRef = React.useRef<any>();
 
   const renderIcon = (style: StyleType) => (
     <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
@@ -57,6 +59,8 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               autoCompleteType="off"
               placeholder="Username"
               autoFocus
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
             />
             <Input
               style={globalStyles.input}
@@ -68,6 +72,9 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               value={props.values.password}
               textContentType="password"
               placeholder="Password"
+              ref={passwordRef}
+              returnKeyType="next"
+              onSubmitEditing={() => emailRef.current && emailRef.current.focus()}
             />
             <Input
               style={globalStyles.input}
@@ -80,6 +87,9 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               autoCompleteType="email"
               placeholder="Email"
               status={props.touched.email && props.errors.email ? 'danger' : null}
+              ref={emailRef}
+              returnKeyType="next"
+              onSubmitEditing={() => props.handleSubmit()}
             />
             <View style={globalStyles.spacer}>
               <Button disabled={!props.isValid} onPress={() => props.handleSubmit()}>

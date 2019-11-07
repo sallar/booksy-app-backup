@@ -7,9 +7,12 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
     marginVertical: 4,

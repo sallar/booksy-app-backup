@@ -5,6 +5,7 @@ import { ThemeContext } from 'react-navigation';
 import { BottomTabBar } from 'react-navigation-tabs';
 import { BottomTabBarProps } from 'react-navigation-tabs/lib/typescript/src/types';
 import {
+  Icon,
   TopNavigation,
   TopNavigationProps,
   withStyles,
@@ -62,3 +63,15 @@ export const getNavigationOptions = (theme: string) => ({
   },
   headerTintColor: getThemeColor(theme, 'text-basic-color'),
 });
+
+interface TabBarIconProps {
+  name: string;
+  focused: boolean;
+  tintColor: string;
+}
+
+export const TabBarIcon: React.FunctionComponent<TabBarIconProps> = ({
+  focused,
+  name,
+  tintColor,
+}) => <Icon width={25} height={25} name={`${name}${focused ? '' : '-outline'}`} fill={tintColor} />;

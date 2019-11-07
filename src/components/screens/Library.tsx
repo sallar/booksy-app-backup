@@ -1,32 +1,33 @@
 import React from 'react';
-import { Text, View, ScrollView, RefreshControl, FlatList, ActivityIndicator } from 'react-native';
+import { RefreshControl, ActivityIndicator } from 'react-native';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { List, ListItem, Icon, Layout } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { listShelfs } from '../../graphql/queries';
 import { ListShelfsQuery } from '../../API';
 import { useQuery } from '../../hooks/query';
 import { HeaderButtons, Item } from '../HeaderButtons';
+import ScrollView from '../ScrollView';
 
 export const LibraryScreen: NavigationStackScreenComponent = () => {
   const { data, refetch, refetching } = useQuery<ListShelfsQuery>(listShelfs);
 
   if (!data) {
     return (
-      <View style={globalStyles.container}>
+      <Layout style={globalStyles.contentContainer}>
         <ActivityIndicator />
-      </View>
+      </Layout>
     );
   }
 
+  const renderIcon = (style: any) => <Icon {...style} name="book" />;
+
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refetching} onRefresh={refetch} />}>
-      <FlatList
-        keyExtractor={item => item.key}
+      <List
         data={data.listShelfs.items}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.name}</Text>
-          </View>
+        renderItem={({ item, index }) => (
+          <ListItem title={item.name} key={index} icon={renderIcon} />
         )}
       />
     </ScrollView>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Layout, Button, Input, Icon, StyleType } from 'react-native-ui-kitten';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
+// @ts-ignore
+import Illustration from '../../../assets/ui/book-shop.svg';
 
 const schema = yup.object().shape({
   username: yup.string().required('Username is required.'),
@@ -22,6 +24,9 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
 
   return (
     <Layout style={globalStyles.container}>
+      <View style={styles.hero}>
+        <Illustration width={180} height={180} />
+      </View>
       <Formik
         validationSchema={schema}
         initialValues={{ username: '', password: '' }}
@@ -81,6 +86,15 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  hero: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+});
 
 SignIn.navigationOptions = () => ({
   title: 'Sign In',
