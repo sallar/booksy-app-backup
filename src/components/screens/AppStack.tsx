@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { HomeScreen } from './Home';
 import { LibraryScreen } from './Library';
 import { SettingsScreen } from './Settings';
-import { getNavigationOptions } from '../NavigationBar';
+import { getNavigationOptions, StyledBottomBar } from '../NavigationBar';
 import { getThemeColor } from '../../utils/theme';
 
 const defaultNavigationOptions = ({ theme }) => getNavigationOptions(theme);
@@ -63,16 +63,7 @@ const AppStack = createBottomTabNavigator(
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
     }),
-    tabBarOptions: {
-      activeTintColor: {
-        dark: getThemeColor('dark', 'text-basic-color'),
-        light: getThemeColor('light', 'text-basic-color'),
-      },
-      inactiveTintColor: {
-        dark: getThemeColor('dark', 'color-basic-disabled'),
-        light: getThemeColor('light', 'color-basic-disabled'),
-      },
-    },
+    tabBarComponent: StyledBottomBar,
   }
 );
 

@@ -1,8 +1,17 @@
 import React from 'react';
-import { HeaderProps } from 'react-navigation-stack';
-import { TopNavigation, TopNavigationProps, withStyles, ThemeType } from 'react-native-ui-kitten';
-import { getThemeColor } from '../utils/theme';
 import { SafeAreaView } from 'react-native';
+import { HeaderProps } from 'react-navigation-stack';
+import { ThemeContext } from 'react-navigation';
+import { BottomTabBar } from 'react-navigation-tabs';
+import { BottomTabBarProps } from 'react-navigation-tabs/lib/typescript/src/types';
+import {
+  TopNavigation,
+  TopNavigationProps,
+  withStyles,
+  ThemeType,
+  ThemedStyleType,
+} from 'react-native-ui-kitten';
+import { getThemeColor } from '../utils/theme';
 
 const Header: React.FunctionComponent<TopNavigationProps & HeaderProps> = ({
   themedStyle,
@@ -28,6 +37,23 @@ export const StyledHeader = withStyles(Header, (theme: ThemeType) => ({
   safeArea: {
     backgroundColor: theme['background-basic-color-1'],
   },
+}));
+
+const ThemedBottomTabBar: React.FunctionComponent<
+  BottomTabBarProps & { themedStyle: ThemedStyleType }
+> = ({ themedStyle, ...props }) => {
+  return (
+    <ThemeContext.Consumer>
+      {() => <BottomTabBar {...props} style={themedStyle.tabBar} />}
+    </ThemeContext.Consumer>
+  );
+};
+
+export const StyledBottomBar = withStyles(ThemedBottomTabBar, (theme: ThemeType) => ({
+  tabBar: {
+    backgroundColor: theme['background-basic-color-1'],
+  },
+  test: theme['background-basic-color-1'],
 }));
 
 export const getNavigationOptions = (theme: string) => ({
