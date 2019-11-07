@@ -1,9 +1,11 @@
 import React from 'react';
-import { Container, Content, Form, Item, Input, Label, Icon, Button, Text } from 'native-base';
+import { Layout, Button, Input } from 'react-native-ui-kitten';
+import { View } from 'react-native';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { globalStyles } from '../../styles/global';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -11,62 +13,70 @@ const schema = yup.object().shape({
 });
 
 const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ navigation }) => {
-  return (
-    <Container>
-      <Content>
-        <Formik
-          validationSchema={schema}
-          initialValues={{ username: navigation.getParam('username') || '', code: '' }}
-          onSubmit={async ({ username, code }) => {
-            try {
-              Auth.confirmSignUp(username, code);
-              navigation.navigate('SignIn');
-            } catch (err) {
-              console.error('Error confirming signing up: ', err);
-            }
-          }}
-        >
-          {props => (
-            <Form>
-              <Item floatingLabel={true} error={props.errors.username && props.touched.username}>
-                <Label>Username</Label>
-                <Input
-                  value={props.values.username}
-                  onChangeText={props.handleChange('username')}
-                  onBlur={props.handleBlur('username')}
-                />
-              </Item>
-              <Item floatingLabel={true} error={props.errors.code && props.touched.code}>
-                <Label>Verification code</Label>
-                <Input
-                  value={props.values.code}
-                  onChangeText={props.handleChange('code')}
-                  onBlur={props.handleBlur('code')}
-                  keyboardType="number-pad"
-                />
-              </Item>
+  const codeRef = React.useRef<any>();
+  const incomingUsername = navigation.getParam('username') || '';
 
-              <Button
-                disabled={!props.isValid}
-                full={true}
-                style={{ marginTop: 20 }}
-                onPress={props.handleSubmit}
-              >
-                <Text>Confirm Sign Up</Text>
-              </Button>
-            </Form>
-          )}
-        </Formik>
-        <Button
-          transparent
-          onPressOut={() => {
+  return (
+    <Layout style={globalStyles.container}>
+      <Formik
+        validationSchema={schema}
+        initialValues={{ username: incomingUsername, code: '' }}
+        onSubmit={async ({ username, code }) => {
+          try {
+            await Auth.confirmSignUp(username, code);
             navigation.navigate('SignIn');
-          }}
-        >
-          <Text>Have an account? Sign in.</Text>
-        </Button>
-      </Content>
-    </Container>
+          } catch (err) {
+            console.error('Error confirming signing up: ', err);
+          }
+        }}
+      >
+        {props => (
+          <>
+            <Input
+              style={globalStyles.input}
+              value={props.values.username}
+              onChangeText={props.handleChange('username')}
+              onBlur={props.handleBlur('username')}
+              placeholder="Username"
+              autoCompleteType="off"
+              textContentType="username"
+              autoCapitalize="none"
+              autoFocus={!incomingUsername}
+              disabled={!!incomingUsername}
+              returnKeyType="next"
+              onSubmitEditing={() => codeRef.current && codeRef.current.focus()}
+            />
+            <Input
+              style={globalStyles.input}
+              value={props.values.code}
+              onChangeText={props.handleChange('code')}
+              onBlur={props.handleBlur('code')}
+              keyboardType="number-pad"
+              placeholder="Verification Code"
+              autoFocus={!!incomingUsername}
+              returnKeyType="done"
+              onSubmitEditing={() => props.handleSubmit()}
+              ref={codeRef}
+            />
+            <View style={globalStyles.spacer}>
+              <Button disabled={!props.isValid} onPress={() => props.handleSubmit()}>
+                Confirm Sign Up
+              </Button>
+              <View style={globalStyles.spacer}>
+                <Button
+                  appearance="ghost"
+                  status="basic"
+                  size="small"
+                  onPressOut={() => navigation.navigate('SignIn')}
+                >
+                  Have an account? Sign in.
+                </Button>
+              </View>
+            </View>
+          </>
+        )}
+      </Formik>
+    </Layout>
   );
 };
 

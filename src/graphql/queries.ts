@@ -5,7 +5,8 @@ export const getShelf = `query GetShelf($id: ID!) {
   getShelf(id: $id) {
     id
     name
-    books {
+    key
+    userBooks {
       items {
         id
       }
@@ -24,7 +25,48 @@ export const listShelfs = `query ListShelfs(
     items {
       id
       name
-      books {
+      key
+      userBooks {
+        nextToken
+      }
+      owner
+    }
+    nextToken
+  }
+}
+`;
+export const getUserBook = `query GetUserBook($id: ID!) {
+  getUserBook(id: $id) {
+    id
+    book {
+      id
+      title
+      subtitle
+    }
+    shelves {
+      items {
+        id
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const listUserBooks = `query ListUserBooks(
+  $filter: ModelUserBookFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUserBooks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      book {
+        id
+        title
+        subtitle
+      }
+      shelves {
         nextToken
       }
       owner
@@ -36,7 +78,11 @@ export const listShelfs = `query ListShelfs(
 export const getReview = `query GetReview($id: ID!) {
   getReview(id: $id) {
     id
-    bookId
+    book {
+      id
+      title
+      subtitle
+    }
     body
     rating
     owner
@@ -51,7 +97,11 @@ export const listReviews = `query ListReviews(
   listReviews(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      bookId
+      book {
+        id
+        title
+        subtitle
+      }
       body
       rating
       owner
@@ -65,56 +115,6 @@ export const getBook = `query GetBook($id: ID!) {
     id
     title
     subtitle
-    fullTitle
-    series
-    editionName
-    localId
-    lcClassifications
-    revision
-    latestRevision
-    sourceRecords
-    languages {
-      key
-    }
-    subjects
-    publishCountry
-    byStatement
-    oclcNumbers
-    type {
-      key
-    }
-    description {
-      type
-      value
-    }
-    lastModified {
-      type
-      value
-    }
-    key
-    authors {
-      key
-    }
-    pagination
-    created {
-      type
-      value
-    }
-    numberOfPages
-    deweyDecimalClass
-    isbn13
-    isbn10
-    subjectPlaces
-    publishDate
-    works {
-      key
-    }
-    shelves {
-      items {
-        id
-      }
-      nextToken
-    }
   }
 }
 `;
@@ -128,53 +128,6 @@ export const listBooks = `query ListBooks(
       id
       title
       subtitle
-      fullTitle
-      series
-      editionName
-      localId
-      lcClassifications
-      revision
-      latestRevision
-      sourceRecords
-      languages {
-        key
-      }
-      subjects
-      publishCountry
-      byStatement
-      oclcNumbers
-      type {
-        key
-      }
-      description {
-        type
-        value
-      }
-      lastModified {
-        type
-        value
-      }
-      key
-      authors {
-        key
-      }
-      pagination
-      created {
-        type
-        value
-      }
-      numberOfPages
-      deweyDecimalClass
-      isbn13
-      isbn10
-      subjectPlaces
-      publishDate
-      works {
-        key
-      }
-      shelves {
-        nextToken
-      }
     }
     nextToken
   }

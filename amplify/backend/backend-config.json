@@ -7,7 +7,7 @@
     }
   },
   "api": {
-    "booksy": {
+    "booksyapi": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -16,7 +16,7 @@
             {
               "authenticationType": "API_KEY",
               "apiKeyConfig": {
-                "description": "Booksy API",
+                "description": "Booksy API Key",
                 "apiKeyExpirationDays": 180
               }
             }
@@ -30,5 +30,6 @@
         }
       }
     }
-  }
+  },
+  "function": {}
 }

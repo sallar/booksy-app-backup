@@ -1,73 +1,84 @@
 import React from 'react';
-import { Container, Content, Form, Item, Input, Label, Button, Text, Icon } from 'native-base';
+import { Layout, Button, Input, Icon, StyleType } from 'react-native-ui-kitten';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { View } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { globalStyles } from '../../styles/global';
 
 const schema = yup.object().shape({
-  username: yup.string().required(),
-  password: yup.string().required(),
+  username: yup.string().required('Username is required.'),
+  password: yup.string().required('Password is required.'),
 });
 
 const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
+  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const passwordRef = React.useRef<any>();
+
+  const renderIcon = (style: StyleType) => (
+    <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
+  );
+
   return (
-    <Container>
-      <Content>
-        <Formik
-          validationSchema={schema}
-          initialValues={{ username: '', password: '' }}
-          onSubmit={async ({ username, password }) => {
-            await Auth.signIn(username, password);
-            navigation.navigate('App');
-          }}
-        >
-          {props => (
-            <Form>
-              <Item floatingLabel={true} error={!!props.errors.username}>
-                <Label>Username</Label>
-                <Input
-                  value={props.values.username}
-                  onChangeText={props.handleChange('username')}
-                  onBlur={props.handleBlur('username')}
-                  autoCompleteType="off"
-                  textContentType="username"
-                  autoCapitalize="none"
-                />
-                {props.errors.username && <Icon name="close-circle" />}
-              </Item>
-              <Item floatingLabel={true} last={true} error={!!props.errors.password}>
-                <Label>Password</Label>
-                <Input
-                  value={props.values.password}
-                  onChangeText={props.handleChange('password')}
-                  onBlur={props.handleBlur('password')}
-                  secureTextEntry
-                  textContentType="password"
-                />
-                {props.errors.password && <Icon name="close-circle" />}
-              </Item>
-              <Button
-                full
-                style={{ marginTop: 20 }}
-                onPress={props.handleSubmit}
-                disabled={!props.isValid}
-              >
-                <Text>Sign In</Text>
+    <Layout style={globalStyles.container}>
+      <Formik
+        validationSchema={schema}
+        initialValues={{ username: '', password: '' }}
+        onSubmit={async ({ username, password }) => {
+          await Auth.signIn(username, password);
+          navigation.navigate('App');
+        }}
+      >
+        {props => (
+          <>
+            <Input
+              style={globalStyles.input}
+              value={props.values.username}
+              onChangeText={props.handleChange('username')}
+              onBlur={props.handleBlur('username')}
+              autoCompleteType="off"
+              textContentType="username"
+              autoCapitalize="none"
+              placeholder="Username"
+              autoFocus
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
+            />
+            <Input
+              style={globalStyles.input}
+              value={props.values.password}
+              onChangeText={props.handleChange('password')}
+              onBlur={props.handleBlur('password')}
+              secureTextEntry={secureTextEntry}
+              icon={renderIcon}
+              onIconPress={() => setSecureTextEntry(!secureTextEntry)}
+              textContentType="password"
+              placeholder="Password"
+              ref={passwordRef}
+              enablesReturnKeyAutomatically={true}
+              returnKeyType="done"
+              onSubmitEditing={() => props.handleSubmit()}
+            />
+            <View style={globalStyles.spacer}>
+              <Button onPress={() => props.handleSubmit()} disabled={!props.isValid}>
+                Sign In
               </Button>
-            </Form>
-          )}
-        </Formik>
-        <Button
-          transparent
-          onPressOut={() => {
-            navigation.navigate('SignUp');
-          }}
-        >
-          <Text>Don't have an account? Create one.</Text>
-        </Button>
-      </Content>
-    </Container>
+              <View style={globalStyles.spacer}>
+                <Button
+                  appearance="ghost"
+                  status="basic"
+                  size="small"
+                  onPress={() => navigation.navigate('SignUp')}
+                >
+                  Don't have an account? Create one.
+                </Button>
+              </View>
+            </View>
+          </>
+        )}
+      </Formik>
+    </Layout>
   );
 };
 
