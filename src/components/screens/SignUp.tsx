@@ -1,11 +1,16 @@
 import React from 'react';
-import { Layout, Button, Input, Icon, StyleType } from 'react-native-ui-kitten';
-import { View } from 'react-native';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { Button, Input, StyleType } from 'react-native-ui-kitten';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
+import {
+  Navigation,
+  OptionsModalPresentationStyle,
+} from 'react-native-navigation';
+import { SIGN_UP_VERIFY_SCREEN } from '.';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -16,17 +21,25 @@ const schema = yup.object().shape({
     .required(),
 });
 
-const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
+interface SignUpProps {
+  componentId: string;
+}
+
+const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const passwordRef = React.useRef<any>();
   const emailRef = React.useRef<any>();
 
-  const renderIcon = (style: StyleType) => (
-    <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
+  const renderIcon = ({ tintColor }: StyleType) => (
+    <Icon
+      color={tintColor}
+      size={24}
+      name={!secureTextEntry ? 'eye' : 'eye-off'}
+    />
   );
 
   return (
-    <Layout style={globalStyles.container}>
+    <ScrollView style={globalStyles.container}>
       <Formik
         validationSchema={schema}
         initialValues={{ username: '', password: '', email: '' }}
@@ -39,14 +52,13 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
                 email,
               },
             });
-            navigation.navigate('SignUpVerify', {
-              username,
-            });
+            // navigation.navigate('SignUpVerify', {
+            //   username,
+            // });
           } catch (err) {
             console.error('Error signing up: ', err);
           }
-        }}
-      >
+        }}>
         {props => (
           <>
             <Input
@@ -58,9 +70,11 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               autoCapitalize="none"
               autoCompleteType="off"
               placeholder="Username"
-              autoFocus
+              // autoFocus
               returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
+              onSubmitEditing={() =>
+                passwordRef.current && passwordRef.current.focus()
+              }
             />
             <Input
               style={globalStyles.input}
@@ -74,7 +88,9 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               placeholder="Password"
               ref={passwordRef}
               returnKeyType="next"
-              onSubmitEditing={() => emailRef.current && emailRef.current.focus()}
+              onSubmitEditing={() =>
+                emailRef.current && emailRef.current.focus()
+              }
             />
             <Input
               style={globalStyles.input}
@@ -86,13 +102,17 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
               autoCapitalize="none"
               autoCompleteType="email"
               placeholder="Email"
-              status={props.touched.email && props.errors.email ? 'danger' : null}
+              status={
+                props.touched.email && props.errors.email ? 'danger' : undefined
+              }
               ref={emailRef}
               returnKeyType="next"
               onSubmitEditing={() => props.handleSubmit()}
             />
             <View style={globalStyles.spacer}>
-              <Button disabled={!props.isValid} onPress={() => props.handleSubmit()}>
+              <Button
+                disabled={!props.isValid}
+                onPress={() => props.handleSubmit()}>
                 Sign Up
               </Button>
               <View style={globalStyles.spacer}>
@@ -100,7 +120,10 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPress={() => navigation.navigate('SignIn')}
+                  onPress={() => {
+                    Navigation.pop(componentId);
+                  }}
+                  // onPress={() => navigation.navigate('SignIn')}
                 >
                   Have an account? Sign in.
                 </Button>
@@ -108,7 +131,23 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPress={() => navigation.navigate('SignUpVerify')}
+                  onPress={() => {
+                    Navigation.showModal({
+                      stack: {
+                        children: [
+                          {
+                            component: {
+                              name: SIGN_UP_VERIFY_SCREEN,
+                              passProps: {
+                                username: 'sallar',
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    });
+                  }}
+                  // onPress={() => navigation.navigate('SignUpVerify')}
                 >
                   Want to verify your account?
                 </Button>
@@ -117,12 +156,17 @@ const SignUp: NavigationStackScreenComponent = ({ navigation }) => {
           </>
         )}
       </Formik>
-    </Layout>
+    </ScrollView>
   );
 };
 
-SignUp.navigationOptions = () => ({
-  title: 'Register',
+// @ts-ignore
+SignUp.options = () => ({
+  topBar: {
+    title: {
+      text: 'Register',
+    },
+  },
 });
 
 export default SignUp;

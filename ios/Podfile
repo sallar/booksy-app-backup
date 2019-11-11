@@ -37,6 +37,10 @@ target 'Booksy' do
   pod 'ReactNativeNavigation', :podspec => '../node_modules/react-native-navigation/ReactNativeNavigation.podspec'
 
 
+  pod 'react-native-appearance', :path => '../node_modules/react-native-appearance'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'BooksyTests' do
     inherit! :search_paths
     # Pods for testing

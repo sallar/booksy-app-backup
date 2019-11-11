@@ -1,7 +1,11 @@
 import React from 'react';
-import { Layout, Button, Input } from 'react-native-ui-kitten';
-import { View } from 'react-native';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { Button, Input } from 'react-native-ui-kitten';
+import {
+  OptionsModalPresentationStyle,
+  Navigation,
+} from 'react-native-navigation';
+import { useNavigationButtonPress } from 'react-native-navigation-hooks';
+import { View, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -12,24 +16,29 @@ const schema = yup.object().shape({
   code: yup.number().required(),
 });
 
-const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ navigation }) => {
+const SignUpVerify: React.FunctionComponent<{
+  username: string;
+  componentId: string;
+}> = ({ componentId, username = '' }) => {
   const codeRef = React.useRef<any>();
-  const incomingUsername = navigation.getParam('username') || '';
+
+  useNavigationButtonPress(e => {
+    Navigation.dismissModal(componentId);
+  }, componentId);
 
   return (
-    <Layout style={globalStyles.container}>
+    <ScrollView style={globalStyles.container}>
       <Formik
         validationSchema={schema}
-        initialValues={{ username: incomingUsername, code: '' }}
+        initialValues={{ username, code: '' }}
         onSubmit={async ({ username, code }) => {
           try {
             await Auth.confirmSignUp(username, code);
-            navigation.navigate('SignIn');
+            // navigation.navigate('SignIn');
           } catch (err) {
             console.error('Error confirming signing up: ', err);
           }
-        }}
-      >
+        }}>
         {props => (
           <>
             <Input
@@ -41,8 +50,8 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
               autoCompleteType="off"
               textContentType="username"
               autoCapitalize="none"
-              autoFocus={!incomingUsername}
-              disabled={!!incomingUsername}
+              autoFocus={!username}
+              disabled={!!username}
               returnKeyType="next"
               onSubmitEditing={() => codeRef.current && codeRef.current.focus()}
             />
@@ -53,13 +62,15 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
               onBlur={props.handleBlur('code')}
               keyboardType="number-pad"
               placeholder="Verification Code"
-              autoFocus={!!incomingUsername}
+              autoFocus={!!username}
               returnKeyType="done"
               onSubmitEditing={() => props.handleSubmit()}
               ref={codeRef}
             />
             <View style={globalStyles.spacer}>
-              <Button disabled={!props.isValid} onPress={() => props.handleSubmit()}>
+              <Button
+                disabled={!props.isValid}
+                onPress={() => props.handleSubmit()}>
                 Confirm Sign Up
               </Button>
               <View style={globalStyles.spacer}>
@@ -67,7 +78,7 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPressOut={() => navigation.navigate('SignIn')}
+                  // onPressOut={() => navigation.navigate('SignIn')}
                 >
                   Have an account? Sign in.
                 </Button>
@@ -76,12 +87,25 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
           </>
         )}
       </Formik>
-    </Layout>
+    </ScrollView>
   );
 };
 
-SignUpVerify.navigationOptions = () => ({
-  title: 'Verify Account',
+//@ts-ignore
+SignUpVerify.options = () => ({
+  statusBar: {
+    visible: true,
+  },
+  modalPresentationStyle: OptionsModalPresentationStyle.pageSheet,
+  topBar: {
+    title: {
+      text: 'Modal',
+    },
+    rightButtons: {
+      id: 'dismiss',
+      systemItem: 'done',
+    },
+  },
 });
 
 export default SignUpVerify;

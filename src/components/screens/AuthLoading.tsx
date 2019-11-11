@@ -1,16 +1,18 @@
 import React from 'react';
-import { Container, Content, Spinner } from 'native-base';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { Layout, Spinner } from 'react-native-ui-kitten';
 import { Auth } from 'aws-amplify';
+import { goToAuth } from '../../navigation';
 
-const AuthLoading: NavigationStackScreenComponent = ({ navigation }) => {
+const AuthLoading: React.FunctionComponent = ({}) => {
   React.useEffect(() => {
     const getUser = async () => {
       try {
-        await Auth.currentAuthenticatedUser();
-        navigation.navigate('App');
+        const user = await Auth.currentAuthenticatedUser();
+        console.log(user);
+        // navigation.navigate('App');
       } catch (err) {
-        navigation.navigate('Auth');
+        console.log(err);
+        goToAuth();
       }
     };
 
@@ -18,11 +20,9 @@ const AuthLoading: NavigationStackScreenComponent = ({ navigation }) => {
   }, []);
 
   return (
-    <Container>
-      <Content>
-        <Spinner color="black" />
-      </Content>
-    </Container>
+    <Layout style={{ flex: 1 }}>
+      <Spinner />
+    </Layout>
   );
 };
 

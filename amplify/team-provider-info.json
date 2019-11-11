@@ -1,19 +1,19 @@
 {
-  "test": {
-    "awscloudformation": {
-      "AuthRoleName": "booksy-app-test-20191013170719-authRole",
-      "UnauthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-authRole",
-      "Region": "eu-west-1",
-      "DeploymentBucketName": "booksy-app-test-20191013170719-deployment",
-      "UnauthRoleName": "booksy-app-test-20191013170719-unauthRole",
-      "StackName": "booksy-app-test-20191013170719",
-      "StackId": "arn:aws:cloudformation:eu-west-1:489972783034:stack/booksy-app-test-20191013170719/c4f0bb20-edc2-11e9-98f5-069d0ee2d5e8"
-    },
-    "categories": {
-      "auth": {
-        "booksyAppAuth": {}
-      }
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "booksy-app-test-20191013170719-authRole",
+            "UnauthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "booksy-app-test-20191013170719-deployment",
+            "UnauthRoleName": "booksy-app-test-20191013170719-unauthRole",
+            "StackName": "booksy-app-test-20191013170719",
+            "StackId": "arn:aws:cloudformation:eu-west-1:489972783034:stack/booksy-app-test-20191013170719/c4f0bb20-edc2-11e9-98f5-069d0ee2d5e8"
+        },
+        "categories": {
+            "auth": {
+                "booksyAppAuth": {}
+            }
+        }
     }
-  }
 }

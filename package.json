@@ -10,9 +10,22 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@aws-amplify/api": "^1.2.4",
+    "@aws-amplify/core": "^1.2.4",
+    "@aws-amplify/pubsub": "^1.2.4",
+    "@eva-design/eva": "^1.2.0",
+    "@ui-kitten/eva-icons": "^4.2.0",
+    "aws-amplify": "^1.2.4",
+    "aws-amplify-react-native": "^2.2.3",
+    "formik": "^2.0.3",
     "react": "16.9.0",
     "react-native": "0.61.4",
-    "react-native-navigation": "^3.5.1"
+    "react-native-appearance": "^0.2.1",
+    "react-native-navigation": "^3.5.1",
+    "react-native-navigation-hooks": "^3.0.1",
+    "react-native-ui-kitten": "^4.2.0",
+    "react-native-vector-icons": "^6.6.0",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -21,7 +34,9 @@
     "@types/jest": "^24.0.22",
     "@types/react": "^16.9.11",
     "@types/react-native": "^0.60.22",
+    "@types/react-native-vector-icons": "^6.4.4",
     "@types/react-test-renderer": "^16.9.1",
+    "@types/yup": "^0.26.24",
     "babel-jest": "^24.9.0",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",

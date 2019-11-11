@@ -1,0 +1,74 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "booksy-app-test-20191013170719-authRole",
+            "UnauthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::489972783034:role/booksy-app-test-20191013170719-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "booksy-app-test-20191013170719-deployment",
+            "UnauthRoleName": "booksy-app-test-20191013170719-unauthRole",
+            "StackName": "booksy-app-test-20191013170719",
+            "StackId": "arn:aws:cloudformation:eu-west-1:489972783034:stack/booksy-app-test-20191013170719/c4f0bb20-edc2-11e9-98f5-069d0ee2d5e8"
+        },
+        "categories": {
+            "auth": {
+                "booksyAppAuth": {}
+            }
+        }
+    },
+    "auth": {
+        "booksyAppAuth": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [],
+            "output": {
+                "AppClientSecret": "1j1q0ktjqop134jmduria6vfe3sh3p3h00quah90onrjpgnbg4th",
+                "UserPoolId": "eu-west-1_VkcRxzaBZ",
+                "AppClientIDWeb": "v0e01fp7hfbdlnevm3v5154jp",
+                "AppClientID": "p4ib205l90sknidr7t3fos0rs",
+                "IdentityPoolId": "eu-west-1:597da0bd-0362-4e5f-aca7-7a26afad9b8b",
+                "IdentityPoolName": "booksy_app348881d0_identitypool_348881d0__test",
+                "UserPoolName": "booksy_app348881d0_userpool_348881d0"
+            },
+            "lastPushTimeStamp": "2019-11-11T20:36:07.122Z",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/booksy-app-test-20191013170719-deployment/amplify-cfn-templates/auth/booksyAppAuth-cloudformation-template.yml",
+                "logicalId": "authbooksyAppAuth"
+            }
+        }
+    },
+    "api": {
+        "booksyapi": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "API_KEY",
+                            "apiKeyConfig": {
+                                "description": "Booksy API Key",
+                                "apiKeyExpirationDays": 180
+                            }
+                        }
+                    ],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authbooksyAppAuth"
+                        }
+                    }
+                },
+                "GraphQLAPIIdOutput": "7hr2mphvfzct5ilpve6kmhljgq",
+                "GraphQLAPIEndpointOutput": "https://r4egj5s65fabxe3krq2wqpzwhu.appsync-api.eu-west-1.amazonaws.com/graphql",
+                "GraphQLAPIKeyOutput": "da2-7sjs4g22qvhfzjhyukajpw2hae"
+            },
+            "lastPushTimeStamp": "2019-11-11T20:36:07.123Z",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/booksy-app-test-20191013170719-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+                "logicalId": "apibooksyapi"
+            }
+        }
+    },
+    "function": {}
+}
