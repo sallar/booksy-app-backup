@@ -2,16 +2,18 @@ import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
 import { mapping, light, dark } from '@eva-design/eva';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import SignInScreen from './SignIn';
 import SignUpScreen from './SignUp';
 import SignUpVerifyScreen from './SignUpVerify';
 import AuthLoadingScreen from './AuthLoading';
-
-export const SIGN_IN_SCREEN = 'booksy.SignInScreen';
-export const SIGN_UP_SCREEN = 'booksy.SignUpScreen';
-export const SIGN_UP_VERIFY_SCREEN = 'booksy.SignUpVerifyScreen';
-export const AUTH_LOADING_SCREEN = 'booksy.AuthLoadingScreen';
+import {
+  SIGN_IN_SCREEN,
+  SIGN_UP_SCREEN,
+  SIGN_UP_VERIFY_SCREEN,
+  AUTH_LOADING_SCREEN,
+} from './constants';
 
 export const Screens = new Map<string, React.FunctionComponent<any>>();
 
@@ -25,9 +27,12 @@ export const registerScreens = () => {
     Navigation.registerComponent(
       key,
       () => props => (
-        <ApplicationProvider mapping={mapping} theme={dark}>
-          <ScreenComponent {...props} />
-        </ApplicationProvider>
+        <>
+          <IconRegistry icons={EvaIconsPack} />
+          <ApplicationProvider mapping={mapping} theme={dark}>
+            <ScreenComponent {...props} />
+          </ApplicationProvider>
+        </>
       ),
       () => ScreenComponent,
     );

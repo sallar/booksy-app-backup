@@ -1,16 +1,14 @@
 import React from 'react';
-import { Button, Input, StyleType } from 'react-native-ui-kitten';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Icon, Button, Input, StyleType } from 'react-native-ui-kitten';
 import { View, ScrollView } from 'react-native';
+import { useNavigationComponentDidAppear } from 'react-native-navigation-hooks';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
-import {
-  Navigation,
-  OptionsModalPresentationStyle,
-} from 'react-native-navigation';
-import { SIGN_UP_VERIFY_SCREEN } from '.';
+import { Navigation } from 'react-native-navigation';
+import { SIGN_UP_VERIFY_SCREEN } from './constants';
+import { showModal, navigateTo } from '../../navigation';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -27,16 +25,19 @@ interface SignUpProps {
 
 const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const usernameRef = React.useRef<any>();
   const passwordRef = React.useRef<any>();
   const emailRef = React.useRef<any>();
 
-  const renderIcon = ({ tintColor }: StyleType) => (
-    <Icon
-      color={tintColor}
-      size={24}
-      name={!secureTextEntry ? 'eye' : 'eye-off'}
-    />
+  const renderIcon = (style: StyleType) => (
+    <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
   );
+
+  useNavigationComponentDidAppear(() => {
+    if (usernameRef.current) {
+      usernameRef.current.focus();
+    }
+  }, componentId);
 
   return (
     <ScrollView style={globalStyles.container}>
@@ -52,9 +53,9 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
                 email,
               },
             });
-            // navigation.navigate('SignUpVerify', {
-            //   username,
-            // });
+            navigateTo(componentId, SIGN_UP_VERIFY_SCREEN, {
+              username,
+            });
           } catch (err) {
             console.error('Error signing up: ', err);
           }
@@ -70,11 +71,11 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
               autoCapitalize="none"
               autoCompleteType="off"
               placeholder="Username"
-              // autoFocus
               returnKeyType="next"
               onSubmitEditing={() =>
                 passwordRef.current && passwordRef.current.focus()
               }
+              ref={usernameRef}
             />
             <Input
               style={globalStyles.input}
@@ -111,7 +112,7 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
             />
             <View style={globalStyles.spacer}>
               <Button
-                disabled={!props.isValid}
+                disabled={!props.dirty || !props.isValid}
                 onPress={() => props.handleSubmit()}>
                 Sign Up
               </Button>
@@ -122,9 +123,7 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
                   size="small"
                   onPress={() => {
                     Navigation.pop(componentId);
-                  }}
-                  // onPress={() => navigation.navigate('SignIn')}
-                >
+                  }}>
                   Have an account? Sign in.
                 </Button>
                 <Button
@@ -132,23 +131,8 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
                   status="basic"
                   size="small"
                   onPress={() => {
-                    Navigation.showModal({
-                      stack: {
-                        children: [
-                          {
-                            component: {
-                              name: SIGN_UP_VERIFY_SCREEN,
-                              passProps: {
-                                username: 'sallar',
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    });
-                  }}
-                  // onPress={() => navigation.navigate('SignUpVerify')}
-                >
+                    navigateTo(componentId, SIGN_UP_VERIFY_SCREEN);
+                  }}>
                   Want to verify your account?
                 </Button>
               </View>

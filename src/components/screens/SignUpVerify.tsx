@@ -1,15 +1,13 @@
 import React from 'react';
 import { Button, Input } from 'react-native-ui-kitten';
-import {
-  OptionsModalPresentationStyle,
-  Navigation,
-} from 'react-native-navigation';
-import { useNavigationButtonPress } from 'react-native-navigation-hooks';
+import { useNavigationComponentDidAppear } from 'react-native-navigation-hooks';
 import { View, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
+import { navigateTo } from '../../navigation';
+import { SIGN_IN_SCREEN } from './constants';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -20,10 +18,17 @@ const SignUpVerify: React.FunctionComponent<{
   username: string;
   componentId: string;
 }> = ({ componentId, username = '' }) => {
+  const usernameRef = React.useRef<any>();
   const codeRef = React.useRef<any>();
 
-  useNavigationButtonPress(e => {
-    Navigation.dismissModal(componentId);
+  useNavigationComponentDidAppear(() => {
+    if (usernameRef.current && codeRef.current) {
+      if (username) {
+        codeRef.current.focus();
+      } else {
+        usernameRef.current.focus();
+      }
+    }
   }, componentId);
 
   return (
@@ -34,7 +39,7 @@ const SignUpVerify: React.FunctionComponent<{
         onSubmit={async ({ username, code }) => {
           try {
             await Auth.confirmSignUp(username, code);
-            // navigation.navigate('SignIn');
+            navigateTo(componentId, SIGN_IN_SCREEN);
           } catch (err) {
             console.error('Error confirming signing up: ', err);
           }
@@ -50,7 +55,6 @@ const SignUpVerify: React.FunctionComponent<{
               autoCompleteType="off"
               textContentType="username"
               autoCapitalize="none"
-              autoFocus={!username}
               disabled={!!username}
               returnKeyType="next"
               onSubmitEditing={() => codeRef.current && codeRef.current.focus()}
@@ -62,24 +66,18 @@ const SignUpVerify: React.FunctionComponent<{
               onBlur={props.handleBlur('code')}
               keyboardType="number-pad"
               placeholder="Verification Code"
-              autoFocus={!!username}
               returnKeyType="done"
               onSubmitEditing={() => props.handleSubmit()}
               ref={codeRef}
             />
             <View style={globalStyles.spacer}>
               <Button
-                disabled={!props.isValid}
+                disabled={!props.dirty || !props.isValid}
                 onPress={() => props.handleSubmit()}>
                 Confirm Sign Up
               </Button>
               <View style={globalStyles.spacer}>
-                <Button
-                  appearance="ghost"
-                  status="basic"
-                  size="small"
-                  // onPressOut={() => navigation.navigate('SignIn')}
-                >
+                <Button appearance="ghost" status="basic" size="small">
                   Have an account? Sign in.
                 </Button>
               </View>
@@ -93,17 +91,9 @@ const SignUpVerify: React.FunctionComponent<{
 
 //@ts-ignore
 SignUpVerify.options = () => ({
-  statusBar: {
-    visible: true,
-  },
-  modalPresentationStyle: OptionsModalPresentationStyle.pageSheet,
   topBar: {
     title: {
-      text: 'Modal',
-    },
-    rightButtons: {
-      id: 'dismiss',
-      systemItem: 'done',
+      text: 'Verify',
     },
   },
 });

@@ -3,8 +3,8 @@
  */
 import { Navigation } from 'react-native-navigation';
 import Amplify from '@aws-amplify/core';
-import { registerScreens, AUTH_LOADING_SCREEN } from './src/components/screens';
-import App from './App';
+import { registerScreens } from './src/components/screens';
+import { AUTH_LOADING_SCREEN } from './src/components/screens/constants';
 
 import config from './aws-exports.js';
 

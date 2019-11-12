@@ -1,16 +1,16 @@
 import React from 'react';
-import { Layout, Button, Input, StyleType } from 'react-native-ui-kitten';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { Icon, Button, Input, StyleType } from 'react-native-ui-kitten';
+import { useNavigationComponentDidAppear } from 'react-native-navigation-hooks';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
-import { Navigation } from 'react-native-navigation';
-import { SIGN_UP_SCREEN } from '.';
+import { SIGN_UP_SCREEN } from './constants';
+import { navigateTo } from '../../navigation';
 
-// '../../../assets/ui/book-shop.svg'
+// @ts-ignore
+import Illustration from '../../../assets/ui/book-shop.svg';
 
 const schema = yup.object().shape({
   username: yup.string().required('Username is required.'),
@@ -23,23 +23,27 @@ interface SignInProps {
 
 const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const usernameRef = React.useRef<any>();
   const passwordRef = React.useRef<any>();
 
-  const renderIcon = ({ tintColor }: StyleType) => (
-    <Icon
-      name={!secureTextEntry ? 'eye' : 'eye-off'}
-      size={24}
-      color={tintColor}
-    />
-  );
+  const renderIcon = (style: StyleType) => {
+    return <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />;
+  };
+
+  useNavigationComponentDidAppear(() => {
+    if (usernameRef.current) {
+      usernameRef.current.focus();
+    }
+  }, componentId);
 
   return (
     <ScrollView style={globalStyles.container}>
-      {/* <View style={styles.hero}>
+      <View style={styles.hero}>
         <Illustration width={180} height={180} />
-      </View> */}
+      </View>
       <Formik
         validationSchema={schema}
+        validateOnMount={true}
         initialValues={{ username: '', password: '' }}
         onSubmit={async ({ username, password }) => {
           await Auth.signIn(username, password);
@@ -56,8 +60,8 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
               textContentType="username"
               autoCapitalize="none"
               placeholder="Username"
-              // autoFocus
               returnKeyType="next"
+              ref={usernameRef}
               onSubmitEditing={() =>
                 passwordRef.current && passwordRef.current.focus()
               }
@@ -68,7 +72,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
               onChangeText={props.handleChange('password')}
               onBlur={props.handleBlur('password')}
               secureTextEntry={secureTextEntry}
-              // icon={renderIcon}
+              icon={renderIcon}
               onIconPress={() => setSecureTextEntry(!secureTextEntry)}
               textContentType="password"
               placeholder="Password"
@@ -80,7 +84,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
             <View style={globalStyles.spacer}>
               <Button
                 onPress={() => props.handleSubmit()}
-                disabled={!props.isValid}>
+                disabled={!props.dirty || !props.isValid}>
                 Sign In
               </Button>
               <View style={globalStyles.spacer}>
@@ -88,13 +92,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPress={() => {
-                    Navigation.push(componentId, {
-                      component: {
-                        name: SIGN_UP_SCREEN,
-                      },
-                    });
-                  }}>
+                  onPress={() => navigateTo(componentId, SIGN_UP_SCREEN)}>
                   Don't have an account? Create one.
                 </Button>
               </View>
