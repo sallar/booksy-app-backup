@@ -34,10 +34,9 @@ target 'Booksy' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'ReactNativeNavigation', :podspec => '../node_modules/react-native-navigation/ReactNativeNavigation.podspec'
 
 
-  pod 'react-native-appearance', :path => '../node_modules/react-native-appearance'
+
 
 
   target 'BooksyTests' do
