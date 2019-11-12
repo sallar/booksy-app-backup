@@ -1,17 +1,16 @@
 import React from 'react';
-import { Layout, Spinner } from 'react-native-ui-kitten';
 import { Auth } from 'aws-amplify';
-import { goToAuth } from '../../navigation';
+import { goToAuth, goToHome } from '../../navigation';
+import { View, ActivityIndicator } from 'react-native';
+import { globalStyles } from '../../styles/global';
 
 const AuthLoading: React.FunctionComponent = ({}) => {
   React.useEffect(() => {
     const getUser = async () => {
       try {
-        const user = await Auth.currentAuthenticatedUser();
-        console.log(user);
-        // navigation.navigate('App');
+        await Auth.currentAuthenticatedUser();
+        goToHome();
       } catch (err) {
-        console.log(err);
         goToAuth();
       }
     };
@@ -20,9 +19,9 @@ const AuthLoading: React.FunctionComponent = ({}) => {
   }, []);
 
   return (
-    <Layout style={{ flex: 1 }}>
-      <Spinner />
-    </Layout>
+    <View style={globalStyles.contentContainer}>
+      <ActivityIndicator />
+    </View>
   );
 };
 

@@ -3,12 +3,16 @@
  */
 import { Navigation } from 'react-native-navigation';
 import Amplify from '@aws-amplify/core';
+import { MemoryStorageNew } from './src/StorageService';
 import { registerScreens } from './src/components/screens';
 import { AUTH_LOADING_SCREEN } from './src/components/screens/constants';
 
 import config from './aws-exports.js';
 
-Amplify.configure(config);
+Amplify.configure({
+  ...config,
+  storage: MemoryStorageNew,
+});
 registerScreens();
 
 Navigation.events().registerAppLaunchedListener(() => {
@@ -23,6 +27,12 @@ Navigation.events().registerAppLaunchedListener(() => {
       background: {
         translucent: true,
       },
+    },
+    bottomTab: {
+      selectedIconColor: '#ffffff',
+      iconColor: '#cccccc',
+      textColor: '#cccccc',
+      selectedTextColor: '#ffffff',
     },
     bottomTabs: {
       translucent: true,

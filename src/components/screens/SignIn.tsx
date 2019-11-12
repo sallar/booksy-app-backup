@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
 import { SIGN_UP_SCREEN } from './constants';
-import { navigateTo } from '../../navigation';
+import { navigateTo, goToHome } from '../../navigation';
 
 // @ts-ignore
 import Illustration from '../../../assets/ui/book-shop.svg';
@@ -48,8 +48,10 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
         validateOnMount={true}
         initialValues={{ username: '', password: '' }}
         onSubmit={async ({ username, password }) => {
+          console.log(username, password);
           await Auth.signIn(username, password);
-          /* navigation.navigate('App'); */
+          console.log('Signed in');
+          goToHome();
         }}>
         {props => (
           <>

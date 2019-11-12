@@ -1,5 +1,10 @@
 import { Navigation } from 'react-native-navigation';
-import { SIGN_IN_SCREEN } from './components/screens/constants';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  SIGN_IN_SCREEN,
+  HOME_SCREEN,
+  PROFILE_SCREEN,
+} from './components/screens/constants';
 
 export const goToAuth = () =>
   Navigation.setRoot({
@@ -15,6 +20,54 @@ export const goToAuth = () =>
       },
     },
   });
+
+export const goToHome = async () => {
+  const libraryIcon = await Icon.getImageSource('library', 25);
+  const profileIcon = await Icon.getImageSource('face-profile', 25);
+
+  Navigation.setRoot({
+    root: {
+      bottomTabs: {
+        children: [
+          {
+            stack: {
+              options: {
+                bottomTab: {
+                  icon: libraryIcon,
+                  text: 'Library',
+                },
+              },
+              children: [
+                {
+                  component: {
+                    name: HOME_SCREEN,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              options: {
+                bottomTab: {
+                  icon: profileIcon,
+                  text: 'Profile',
+                },
+              },
+              children: [
+                {
+                  component: {
+                    name: PROFILE_SCREEN,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  });
+};
 
 export const navigateTo = (
   componentId: string,
