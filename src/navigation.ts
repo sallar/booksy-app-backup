@@ -28,6 +28,18 @@ export const navigateTo = (
     },
   });
 
+export const navigateToRoot = (
+  componentId: string,
+  screenName: string,
+  passProps: any = {},
+) =>
+  Navigation.setStackRoot(componentId, {
+    component: {
+      name: screenName,
+      passProps,
+    },
+  });
+
 export const showModal = (screenName: string, passProps: any = {}) =>
   Navigation.showModal({
     stack: {

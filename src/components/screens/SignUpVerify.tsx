@@ -6,7 +6,7 @@ import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
-import { navigateTo } from '../../navigation';
+import { navigateToRoot } from '../../navigation';
 import { SIGN_IN_SCREEN } from './constants';
 
 const schema = yup.object().shape({
@@ -32,14 +32,16 @@ const SignUpVerify: React.FunctionComponent<{
   }, componentId);
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      keyboardShouldPersistTaps="always">
       <Formik
         validationSchema={schema}
         initialValues={{ username, code: '' }}
         onSubmit={async ({ username, code }) => {
           try {
             await Auth.confirmSignUp(username, code);
-            navigateTo(componentId, SIGN_IN_SCREEN);
+            navigateToRoot(componentId, SIGN_IN_SCREEN);
           } catch (err) {
             console.error('Error confirming signing up: ', err);
           }
@@ -77,7 +79,13 @@ const SignUpVerify: React.FunctionComponent<{
                 Confirm Sign Up
               </Button>
               <View style={globalStyles.spacer}>
-                <Button appearance="ghost" status="basic" size="small">
+                <Button
+                  appearance="ghost"
+                  status="basic"
+                  size="small"
+                  onPress={() => {
+                    navigateToRoot(componentId, SIGN_IN_SCREEN);
+                  }}>
                   Have an account? Sign in.
                 </Button>
               </View>

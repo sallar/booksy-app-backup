@@ -40,7 +40,9 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
   }, componentId);
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      keyboardShouldPersistTaps="always">
       <Formik
         validationSchema={schema}
         initialValues={{ username: '', password: '', email: '' }}
