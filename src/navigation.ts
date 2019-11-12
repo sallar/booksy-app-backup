@@ -21,10 +21,7 @@ export const goToAuth = () =>
     },
   });
 
-export const goToHome = async () => {
-  const libraryIcon = await Icon.getImageSource('library', 25);
-  const profileIcon = await Icon.getImageSource('face-profile', 25);
-
+export const goToHome = () => {
   Navigation.setRoot({
     root: {
       bottomTabs: {
@@ -33,7 +30,7 @@ export const goToHome = async () => {
             stack: {
               options: {
                 bottomTab: {
-                  icon: libraryIcon,
+                  icon: require('../assets/ui/book-library.png'),
                   text: 'Library',
                 },
               },
@@ -50,7 +47,7 @@ export const goToHome = async () => {
             stack: {
               options: {
                 bottomTab: {
-                  icon: profileIcon,
+                  icon: require('../assets/ui/person.png'),
                   text: 'Profile',
                 },
               },
