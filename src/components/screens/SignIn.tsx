@@ -1,11 +1,14 @@
 import React from 'react';
-import { Layout, Button, Input, Icon, StyleType } from 'react-native-ui-kitten';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { View, StyleSheet } from 'react-native';
+import { Icon, Button, Input, StyleType } from 'react-native-ui-kitten';
+import { useNavigationComponentDidAppear } from 'react-native-navigation-hooks';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
+import { SIGN_UP_SCREEN } from './constants';
+import { navigateTo, goToHome } from '../../navigation';
+
 // @ts-ignore
 import Illustration from '../../../assets/ui/book-shop.svg';
 
@@ -14,27 +17,42 @@ const schema = yup.object().shape({
   password: yup.string().required('Password is required.'),
 });
 
-const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
+interface SignInProps {
+  componentId: string;
+}
+
+const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const usernameRef = React.useRef<any>();
   const passwordRef = React.useRef<any>();
 
-  const renderIcon = (style: StyleType) => (
-    <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />
-  );
+  const renderIcon = (style: StyleType) => {
+    return <Icon {...style} name={!secureTextEntry ? 'eye' : 'eye-off'} />;
+  };
+
+  useNavigationComponentDidAppear(() => {
+    if (usernameRef.current) {
+      usernameRef.current.focus();
+    }
+  }, componentId);
 
   return (
-    <Layout style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      keyboardShouldPersistTaps="always">
       <View style={styles.hero}>
         <Illustration width={180} height={180} />
       </View>
       <Formik
         validationSchema={schema}
+        validateOnMount={true}
         initialValues={{ username: '', password: '' }}
         onSubmit={async ({ username, password }) => {
+          console.log(username, password);
           await Auth.signIn(username, password);
-          navigation.navigate('App');
-        }}
-      >
+          console.log('Signed in');
+          goToHome();
+        }}>
         {props => (
           <>
             <Input
@@ -46,9 +64,11 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
               textContentType="username"
               autoCapitalize="none"
               placeholder="Username"
-              autoFocus
               returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
+              ref={usernameRef}
+              onSubmitEditing={() =>
+                passwordRef.current && passwordRef.current.focus()
+              }
             />
             <Input
               style={globalStyles.input}
@@ -66,7 +86,9 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
               onSubmitEditing={() => props.handleSubmit()}
             />
             <View style={globalStyles.spacer}>
-              <Button onPress={() => props.handleSubmit()} disabled={!props.isValid}>
+              <Button
+                onPress={() => props.handleSubmit()}
+                disabled={!props.dirty || !props.isValid}>
                 Sign In
               </Button>
               <View style={globalStyles.spacer}>
@@ -74,8 +96,7 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPress={() => navigation.navigate('SignUp')}
-                >
+                  onPress={() => navigateTo(componentId, SIGN_UP_SCREEN)}>
                   Don't have an account? Create one.
                 </Button>
               </View>
@@ -83,9 +104,18 @@ const SignIn: NavigationStackScreenComponent = ({ navigation }) => {
           </>
         )}
       </Formik>
-    </Layout>
+    </ScrollView>
   );
 };
+
+// @ts-ignore
+SignIn.options = () => ({
+  topBar: {
+    title: {
+      text: 'Sign In',
+    },
+  },
+});
 
 const styles = StyleSheet.create({
   hero: {
@@ -94,10 +124,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 8,
   },
-});
-
-SignIn.navigationOptions = () => ({
-  title: 'Sign In',
 });
 
 export default SignIn;

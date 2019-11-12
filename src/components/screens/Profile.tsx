@@ -1,24 +1,31 @@
 import React from 'react';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { Layout, Button } from 'react-native-ui-kitten';
+import { Button } from 'react-native-ui-kitten';
 import { Auth } from 'aws-amplify';
 import { globalStyles } from '../../styles/global';
+import { goToAuth } from '../../navigation';
+import { ScrollView } from 'react-native';
 
-export const ProfileScreen: NavigationStackScreenComponent = ({ navigation }) => {
+export const ProfileScreen: React.FunctionComponent = ({}) => {
   return (
-    <Layout style={globalStyles.container}>
+    <ScrollView style={globalStyles.container}>
       <Button
-        onPressOut={() => {
-          Auth.signOut();
-          navigation.navigate('AuthLoading');
-        }}
-      >
+        onPressOut={async () => {
+          await Auth.signOut();
+          goToAuth();
+        }}>
         Logout
       </Button>
-    </Layout>
+    </ScrollView>
   );
 };
 
-ProfileScreen.navigationOptions = () => ({
-  title: 'Profile',
+// @ts-ignore
+ProfileScreen.options = () => ({
+  topBar: {
+    title: {
+      text: 'Profile',
+    },
+  },
 });
+
+export default ProfileScreen;

@@ -1,16 +1,17 @@
 import React from 'react';
-import { Container, Content, Spinner } from 'native-base';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
 import { Auth } from 'aws-amplify';
+import { goToAuth, goToHome } from '../../navigation';
+import { View, ActivityIndicator } from 'react-native';
+import { globalStyles } from '../../styles/global';
 
-const AuthLoading: NavigationStackScreenComponent = ({ navigation }) => {
+const AuthLoading: React.FunctionComponent = ({}) => {
   React.useEffect(() => {
     const getUser = async () => {
       try {
         await Auth.currentAuthenticatedUser();
-        navigation.navigate('App');
+        goToHome();
       } catch (err) {
-        navigation.navigate('Auth');
+        goToAuth();
       }
     };
 
@@ -18,11 +19,9 @@ const AuthLoading: NavigationStackScreenComponent = ({ navigation }) => {
   }, []);
 
   return (
-    <Container>
-      <Content>
-        <Spinner color="black" />
-      </Content>
-    </Container>
+    <View style={globalStyles.contentContainer}>
+      <ActivityIndicator />
+    </View>
   );
 };
 

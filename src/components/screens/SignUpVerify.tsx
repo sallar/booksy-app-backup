@@ -1,35 +1,51 @@
 import React from 'react';
-import { Layout, Button, Input } from 'react-native-ui-kitten';
-import { View } from 'react-native';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { Button, Input } from 'react-native-ui-kitten';
+import { useNavigationComponentDidAppear } from 'react-native-navigation-hooks';
+import { View, ScrollView } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
+import { navigateToRoot } from '../../navigation';
+import { SIGN_IN_SCREEN } from './constants';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
   code: yup.number().required(),
 });
 
-const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ navigation }) => {
+const SignUpVerify: React.FunctionComponent<{
+  username: string;
+  componentId: string;
+}> = ({ componentId, username = '' }) => {
+  const usernameRef = React.useRef<any>();
   const codeRef = React.useRef<any>();
-  const incomingUsername = navigation.getParam('username') || '';
+
+  useNavigationComponentDidAppear(() => {
+    if (usernameRef.current && codeRef.current) {
+      if (username) {
+        codeRef.current.focus();
+      } else {
+        usernameRef.current.focus();
+      }
+    }
+  }, componentId);
 
   return (
-    <Layout style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      keyboardShouldPersistTaps="always">
       <Formik
         validationSchema={schema}
-        initialValues={{ username: incomingUsername, code: '' }}
+        initialValues={{ username, code: '' }}
         onSubmit={async ({ username, code }) => {
           try {
             await Auth.confirmSignUp(username, code);
-            navigation.navigate('SignIn');
+            navigateToRoot(componentId, SIGN_IN_SCREEN);
           } catch (err) {
             console.error('Error confirming signing up: ', err);
           }
-        }}
-      >
+        }}>
         {props => (
           <>
             <Input
@@ -41,8 +57,7 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
               autoCompleteType="off"
               textContentType="username"
               autoCapitalize="none"
-              autoFocus={!incomingUsername}
-              disabled={!!incomingUsername}
+              disabled={!!username}
               returnKeyType="next"
               onSubmitEditing={() => codeRef.current && codeRef.current.focus()}
             />
@@ -53,13 +68,14 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
               onBlur={props.handleBlur('code')}
               keyboardType="number-pad"
               placeholder="Verification Code"
-              autoFocus={!!incomingUsername}
               returnKeyType="done"
               onSubmitEditing={() => props.handleSubmit()}
               ref={codeRef}
             />
             <View style={globalStyles.spacer}>
-              <Button disabled={!props.isValid} onPress={() => props.handleSubmit()}>
+              <Button
+                disabled={!props.dirty || !props.isValid}
+                onPress={() => props.handleSubmit()}>
                 Confirm Sign Up
               </Button>
               <View style={globalStyles.spacer}>
@@ -67,8 +83,9 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
                   appearance="ghost"
                   status="basic"
                   size="small"
-                  onPressOut={() => navigation.navigate('SignIn')}
-                >
+                  onPress={() => {
+                    navigateToRoot(componentId, SIGN_IN_SCREEN);
+                  }}>
                   Have an account? Sign in.
                 </Button>
               </View>
@@ -76,12 +93,17 @@ const SignUpVerify: NavigationStackScreenComponent<{ username: string }> = ({ na
           </>
         )}
       </Formik>
-    </Layout>
+    </ScrollView>
   );
 };
 
-SignUpVerify.navigationOptions = () => ({
-  title: 'Verify Account',
+//@ts-ignore
+SignUpVerify.options = () => ({
+  topBar: {
+    title: {
+      text: 'Verify',
+    },
+  },
 });
 
 export default SignUpVerify;

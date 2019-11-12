@@ -1,79 +1,55 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
+  "name": "Booksy",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "lint": "tslint 'src/**/*.{ts,tsx}'"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@aws-amplify/api": "^1.1.3",
-    "@aws-amplify/core": "^1.1.2",
-    "@aws-amplify/pubsub": "^1.1.2",
+    "@aws-amplify/api": "^1.2.4",
+    "@aws-amplify/core": "^1.2.4",
+    "@aws-amplify/pubsub": "^1.2.4",
     "@eva-design/eva": "^1.2.0",
+    "@react-native-community/async-storage": "^1.6.2",
     "@ui-kitten/eva-icons": "^4.2.0",
-    "aws-amplify": "^1.1.40",
-    "aws-amplify-react-native": "^2.1.19",
-    "expo": "^35.0.0",
-    "expo-font": "~7.0.0",
-    "formik": "^1.5.8",
-    "native-base": "^2.13.8",
-    "react": "16.10.2",
-    "react-dom": "16.10.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-    "react-native-appearance": "~0.1.0",
-    "react-native-gesture-handler": "~1.3.0",
-    "react-native-reanimated": "~1.2.0",
-    "react-native-screens": "~1.0.0-alpha.23",
-    "react-native-svg": "~9.9.2",
+    "amazon-cognito-identity-js": "^3.2.0",
+    "aws-amplify": "^1.2.4",
+    "aws-amplify-react-native": "^2.2.3",
+    "formik": "^2.0.3",
+    "react": "16.9.0",
+    "react-native": "0.61.4",
+    "react-native-appearance": "^0.2.1",
+    "react-native-navigation": "^3.5.1",
+    "react-native-navigation-hooks": "^3.0.1",
+    "react-native-svg": "^9.13.3",
+    "react-native-svg-transformer": "^0.13.0",
     "react-native-ui-kitten": "^4.2.0",
-    "react-native-web": "^0.11.7",
-    "react-navigation": "^4.0.10",
-    "react-navigation-header-buttons": "^3.0.3",
-    "react-navigation-stack": "^1.9.4",
-    "react-navigation-tabs": "^2.5.5",
+    "react-native-vector-icons": "^6.6.0",
     "use-deep-compare-effect": "^1.2.0",
     "yup": "^0.27.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
-    "@testing-library/react-native": "^4.0.12",
-    "@types/jest": "^24.0.18",
-    "@types/react": "^16.8.23",
-    "@types/react-native": "^0.57.65",
+    "@babel/runtime": "^7.6.2",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "@types/jest": "^24.0.22",
+    "@types/react": "^16.9.11",
+    "@types/react-native": "^0.60.22",
+    "@types/react-native-vector-icons": "^6.4.4",
+    "@types/react-test-renderer": "^16.9.1",
     "@types/yup": "^0.26.24",
     "babel-jest": "^24.9.0",
-    "babel-preset-expo": "^7.0.0",
-    "husky": "^3.0.8",
+    "eslint": "^6.5.1",
     "jest": "^24.9.0",
-    "jest-watch-select-projects": "^1.0.0",
-    "jest-watch-typeahead": "^0.4.0",
-    "lint-staged": "^9.4.1",
-    "prettier": "^1.18.2",
-    "react-native-svg-transformer": "^0.13.0",
-    "react-test-renderer": "16.10.2",
-    "tslint": "^5.20.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.1.0",
-    "tslint-react-hooks": "^2.2.1",
-    "typescript": "^3.4.5"
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.9.0",
+    "typescript": "^3.7.2"
   },
-  "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn test && lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/*.{ts, tsx}": [
-      "jest --findRelatedTests"
-    ]
+  "jest": {
+    "preset": "react-native"
   }
 }

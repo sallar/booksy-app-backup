@@ -1,17 +1,50 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Layout } from 'react-native-ui-kitten';
-import { NavigationStackScreenComponent } from 'react-navigation-stack';
+import { RefreshControl, ActivityIndicator } from 'react-native';
+import { List, ListItem, Icon, Layout } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
+import { listShelfs } from '../../graphql/queries';
+import { ListShelfsQuery } from '../../API';
+import { useQuery } from '../../hooks/query';
+import ScrollView from '../ScrollView';
 
-export const HomeScreen: NavigationStackScreenComponent = () => {
+const HomeScreen: React.FunctionComponent = () => {
+  const { data, refetch, refetching } = useQuery<ListShelfsQuery>(listShelfs);
+
+  if (!data) {
+    return (
+      <Layout style={globalStyles.contentContainer}>
+        <ActivityIndicator />
+      </Layout>
+    );
+  }
+
+  const renderIcon = (style: any) => <Icon {...style} name="book" />;
+
   return (
-    <Layout style={globalStyles.container}>
-      <Text>Home</Text>
-    </Layout>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refetching} onRefresh={refetch} />
+      }>
+      <List
+        data={data.listShelfs ? data.listShelfs.items : []}
+        renderItem={({ item, index }: any) => (
+          <ListItem title={item.name} key={index} icon={renderIcon} />
+        )}
+      />
+    </ScrollView>
   );
 };
 
-HomeScreen.navigationOptions = () => ({
-  title: 'Booksy',
+// @ts-ignore
+HomeScreen.options = () => ({
+  topBar: {
+    searchBar: true,
+    searchBarHiddenWhenScrolling: true,
+    searchBarPlaceholder: 'Discover books...',
+    title: {
+      text: 'Booksy',
+    },
+  },
 });
+
+export default HomeScreen;
