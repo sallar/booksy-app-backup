@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
-import { RefreshControl, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { ActivityIndicator, FlatList } from 'react-native';
 import {
   useNavigationButtonPress,
   useNavigationComponentDidAppear,
 } from 'react-native-navigation-hooks';
-import { List, ListItem, Icon, Layout } from 'react-native-ui-kitten';
+import { ListItem, Icon, Layout } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { listShelfs } from '../../graphql/queries';
 import { ListShelfsQuery } from '../../API';
 import { useQuery } from '../../hooks/query';
-import ScrollView from '../ScrollView';
 import { showModal } from '../../navigation';
 import { ADD_SHELF_SCREEN } from './constants';
 import { Navigation } from 'react-native-navigation';
@@ -55,17 +54,15 @@ const HomeScreen: React.FunctionComponent<HomeScreenProps> = ({
   const renderIcon = (style: any) => <Icon {...style} name="book" />;
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refetching} onRefresh={refetch} />
-      }>
-      <List
-        data={data.listShelfs ? data.listShelfs.items : []}
-        renderItem={({ item, index }: any) => (
-          <ListItem title={item.name} key={index} icon={renderIcon} />
-        )}
-      />
-    </ScrollView>
+    <FlatList
+      onRefresh={refetch}
+      refreshing={refetching}
+      data={data.listShelfs?.items ?? []}
+      keyExtractor={(_, index) => `${index}`}
+      renderItem={({ item }: any) => (
+        <ListItem title={item.name} icon={renderIcon} />
+      )}
+    />
   );
 };
 
