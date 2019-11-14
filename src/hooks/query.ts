@@ -1,18 +1,19 @@
 import React from 'react';
 import API, { graphqlOperation } from '@aws-amplify/api';
+// @ts-ignore
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 interface UseQueryType<ResultType> {
   loading: boolean;
   refetching: boolean;
   error: any;
-  data: ResultType;
+  data?: ResultType;
   refetch: () => void;
 }
 
 export const useQuery = <ResultType extends {}, VariablesType extends {} = {}>(
   query: string,
-  variables?: VariablesType
+  variables?: VariablesType,
 ): UseQueryType<ResultType> => {
   const [loading, setLoading] = React.useState(true);
   const [refetching, setRefetching] = React.useState(false);
@@ -23,9 +24,14 @@ export const useQuery = <ResultType extends {}, VariablesType extends {} = {}>(
     variables = {} as VariablesType;
   }
 
-  const fetchQuery = async (innerQuery: string, innerVariables?: VariablesType) => {
+  const fetchQuery = async (
+    innerQuery: string,
+    innerVariables?: VariablesType,
+  ) => {
     try {
-      const result = (await API.graphql(graphqlOperation(innerQuery, innerVariables))) as {
+      const result = (await API.graphql(
+        graphqlOperation(innerQuery, innerVariables),
+      )) as {
         data: ResultType;
       };
       setData(result.data);

@@ -25,3 +25,9 @@ export const validateEmail = (email: string) => {
 
   return false;
 };
+
+export const convertToKey = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
