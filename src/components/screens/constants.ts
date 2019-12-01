@@ -5,3 +5,4 @@ export const AUTH_LOADING_SCREEN = 'booksy.AuthLoadingScreen';
 export const HOME_SCREEN = 'booksy.HomeScreen';
 export const PROFILE_SCREEN = 'booksy.ProfileScreen';
 export const ADD_SHELF_SCREEN = 'booksy.AddShelfScreen';
+export const SEARCH_SCREEN = 'booksy.SearchScreen';

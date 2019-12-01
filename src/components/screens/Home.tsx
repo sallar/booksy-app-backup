@@ -1,9 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
-import {
-  useNavigationButtonPress,
-  useNavigationComponentDidAppear,
-} from 'react-native-navigation-hooks';
+import { useNavigationButtonPress } from 'react-native-navigation-hooks';
 import { ListItem, Icon, Layout } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { listShelfs } from '../../graphql/queries';
@@ -26,21 +23,6 @@ const HomeScreen: React.FunctionComponent<HomeScreenProps> = ({
     if (e.buttonId === 'add-shelf') {
       showModal(ADD_SHELF_SCREEN);
     }
-  }, componentId);
-
-  // https://github.com/wix/react-native-navigation/issues/5651
-  useNavigationComponentDidAppear(() => {
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        rightButtons: [
-          {
-            id: 'add-shelf',
-            icon: require('../../../assets/ui/medical-room-wait.png'),
-            color: '#ffffff',
-          },
-        ],
-      },
-    });
   }, componentId);
 
   if (!data) {
@@ -69,12 +51,15 @@ const HomeScreen: React.FunctionComponent<HomeScreenProps> = ({
 // @ts-ignore
 HomeScreen.options = () => ({
   topBar: {
-    searchBar: true,
-    searchBarHiddenWhenScrolling: true,
-    searchBarPlaceholder: 'Discover books...',
     title: {
       text: 'Booksy',
     },
+    rightButtons: [
+      {
+        id: 'add-shelf',
+        icon: require('../../../assets/ui/nav-add-shelf.png'),
+      },
+    ],
   },
 });
 

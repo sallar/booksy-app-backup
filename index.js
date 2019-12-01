@@ -26,6 +26,8 @@ Navigation.events().registerAppLaunchedListener(() => {
       background: {
         translucent: true,
       },
+      rightButtonColor: '#fff',
+      leftButtonColor: '#fff',
     },
     bottomTab: {
       selectedIconColor: '#ffffff',
@@ -52,43 +54,3 @@ Navigation.events().registerAppLaunchedListener(() => {
     },
   });
 });
-
-// Navigation.events().registerAppLaunchedListener(() => {
-
-//   Navigation.setRoot({
-//     root: {
-//       bottomTabs: {
-//         children: [
-//           {
-//             stack: {
-//               children: [
-//                 {
-//                   component: {
-//                     name: 'navigation.playground.WelcomeScreen',
-//                     options: {
-//                       topBar: {
-//                         title: {
-//                           text: 'Hello',
-//                         },
-//                       },
-//                     },
-//                   },
-//                 },
-//               ],
-//               options: {
-//                 bottomTab: {
-//                   //   icon: 'back',
-//                   text: 'Layouts',
-//                   testID: 'test',
-//                   badge: '2',
-//                   iconColor: 'red',
-//                   selectedIconColor: 'blue',
-//                 },
-//               },
-//             },
-//           },
-//         ],
-//       },
-//     },
-//   });
-// });

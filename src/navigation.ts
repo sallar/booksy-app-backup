@@ -4,6 +4,7 @@ import {
   SIGN_IN_SCREEN,
   HOME_SCREEN,
   PROFILE_SCREEN,
+  SEARCH_SCREEN,
 } from './components/screens/constants';
 
 export const goToAuth = () =>
@@ -30,7 +31,7 @@ export const goToHome = () => {
             stack: {
               options: {
                 bottomTab: {
-                  icon: require('../assets/ui/book-library.png'),
+                  icon: require('../assets/ui/read-home.png'),
                   text: 'Library',
                 },
               },
@@ -47,7 +48,24 @@ export const goToHome = () => {
             stack: {
               options: {
                 bottomTab: {
-                  icon: require('../assets/ui/person.png'),
+                  icon: require('../assets/ui/read-search.png'),
+                  text: 'Find Books',
+                },
+              },
+              children: [
+                {
+                  component: {
+                    name: SEARCH_SCREEN,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              options: {
+                bottomTab: {
+                  icon: require('../assets/ui/id-card.png'),
                   text: 'Profile',
                 },
               },

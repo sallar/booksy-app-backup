@@ -220,7 +220,7 @@ PODS:
     - React-cxxreact (= 0.61.4)
     - React-jsi (= 0.61.4)
     - ReactCommon/jscallinvoker (= 0.61.4)
-  - ReactNativeNavigation (3.5.1):
+  - ReactNativeNavigation (4.0.1):
     - React
   - RNAWSCognito (3.2.0):
     - JKBigInteger2 (= 0.0.5)
@@ -366,7 +366,7 @@ SPEC CHECKSUMS:
   React-RCTText: 21934e0a51d522abcd0a275407e80af45d6fd9ec
   React-RCTVibration: 0f76400ee3cec6edb9c125da49fed279340d145a
   ReactCommon: a6a294e7028ed67b926d29551aa9394fd989c24c
-  ReactNativeNavigation: 3fad99b3843e8840affd70577aaa30bf14b272d5
+  ReactNativeNavigation: 88c60e4aa1c90e9c1b2b16dba53f1a3c40e5993e
   RNAWSCognito: 8cdb673873f82dc770c769b87c336eb4b67b8ae0
   RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
   RNSVG: f6177f8d7c095fada7cfee2e4bb7388ba426064c

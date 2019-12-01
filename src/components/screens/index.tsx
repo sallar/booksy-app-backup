@@ -11,6 +11,7 @@ import SignUpVerifyScreen from './SignUpVerify';
 import AuthLoadingScreen from './AuthLoading';
 import ProfileScreen from './Profile';
 import AddShelfScreen from './AddShelf';
+import SearchScreen from './Search';
 import {
   SIGN_IN_SCREEN,
   SIGN_UP_SCREEN,
@@ -19,6 +20,7 @@ import {
   HOME_SCREEN,
   PROFILE_SCREEN,
   ADD_SHELF_SCREEN,
+  SEARCH_SCREEN,
 } from './constants';
 
 export const Screens = new Map<string, React.FunctionComponent<any>>();
@@ -30,6 +32,7 @@ Screens.set(AUTH_LOADING_SCREEN, AuthLoadingScreen);
 Screens.set(HOME_SCREEN, HomeScreen);
 Screens.set(PROFILE_SCREEN, ProfileScreen);
 Screens.set(ADD_SHELF_SCREEN, AddShelfScreen);
+Screens.set(SEARCH_SCREEN, SearchScreen);
 
 export const registerScreens = () => {
   Screens.forEach((ScreenComponent, key) => {
