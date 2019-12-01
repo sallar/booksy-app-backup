@@ -30,7 +30,9 @@ export const AddShelf: React.FunctionComponent<AddShelfProps> = ({
   }, componentId);
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView
+      style={globalStyles.container}
+      keyboardShouldPersistTaps="handled">
       <Formik
         initialValues={{ name: '' }}
         validationSchema={schema}

@@ -39,7 +39,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
   return (
     <ScrollView
       style={globalStyles.container}
-      keyboardShouldPersistTaps="always">
+      keyboardShouldPersistTaps="handled">
       <View style={styles.hero}>
         <Illustration width={180} height={180} />
       </View>

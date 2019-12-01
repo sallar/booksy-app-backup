@@ -19,7 +19,6 @@ Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setDefaultOptions({
     layout: {
       backgroundColor: '#222B45',
-      topMargin: Navigation.constants().statusBarHeight,
     },
     topBar: {
       visible: true,
