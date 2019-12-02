@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Text } from 'react-native-ui-kitten';
+import { Text } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { ScrollView } from 'react-native';
+import { NavigationComponent } from '../../types/navigation';
 
-export const SearchScreen: React.FunctionComponent = ({}) => {
+export const SearchScreen: NavigationComponent = ({}) => {
   return (
     <ScrollView style={globalStyles.container}>
       <Text>Hello</Text>
@@ -11,7 +12,6 @@ export const SearchScreen: React.FunctionComponent = ({}) => {
   );
 };
 
-// @ts-ignore
 SearchScreen.options = () => ({
   topBar: {
     searchBar: true,

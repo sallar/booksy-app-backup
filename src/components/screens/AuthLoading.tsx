@@ -3,8 +3,9 @@ import { Auth } from 'aws-amplify';
 import { goToAuth, goToHome } from '../../navigation';
 import { View, ActivityIndicator } from 'react-native';
 import { globalStyles } from '../../styles/global';
+import { NavigationComponent } from '../../types/navigation';
 
-const AuthLoading: React.FunctionComponent = ({}) => {
+const AuthLoading: NavigationComponent = ({}) => {
   React.useEffect(() => {
     const getUser = async () => {
       try {

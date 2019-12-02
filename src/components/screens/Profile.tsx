@@ -4,8 +4,9 @@ import { Auth } from 'aws-amplify';
 import { globalStyles } from '../../styles/global';
 import { goToAuth } from '../../navigation';
 import { ScrollView } from 'react-native';
+import { NavigationComponent } from '../../types/navigation';
 
-export const ProfileScreen: React.FunctionComponent = ({}) => {
+export const ProfileScreen: NavigationComponent = ({}) => {
   return (
     <ScrollView style={globalStyles.container}>
       <Button
@@ -19,7 +20,6 @@ export const ProfileScreen: React.FunctionComponent = ({}) => {
   );
 };
 
-// @ts-ignore
 ProfileScreen.options = () => ({
   topBar: {
     title: {

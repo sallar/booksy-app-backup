@@ -9,18 +9,13 @@ import { globalStyles } from '../../styles/global';
 import { convertToKey } from '../../utils/helpers';
 import { createShelf } from '../../graphql/mutations';
 import { dismissModal } from '../../navigation';
-
-interface AddShelfProps {
-  componentId: string;
-}
+import { NavigationComponent } from '../../types/navigation';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required.'),
 });
 
-export const AddShelf: React.FunctionComponent<AddShelfProps> = ({
-  componentId,
-}) => {
+export const AddShelf: NavigationComponent = ({ componentId }) => {
   const nameRef = useRef<any>(null);
 
   useNavigationComponentDidAppear(() => {
@@ -68,7 +63,6 @@ export const AddShelf: React.FunctionComponent<AddShelfProps> = ({
   );
 };
 
-// @ts-ignore
 AddShelf.options = () => ({
   modalPresentationStyle: 'pageSheet',
   topBar: {

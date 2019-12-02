@@ -9,14 +9,9 @@ import { useQuery } from '../../hooks/query';
 import { showModal } from '../../navigation';
 import { ADD_SHELF_SCREEN } from './constants';
 import { Navigation } from 'react-native-navigation';
+import { NavigationComponent } from '../../types/navigation';
 
-interface HomeScreenProps {
-  componentId: string;
-}
-
-const HomeScreen: React.FunctionComponent<HomeScreenProps> = ({
-  componentId,
-}) => {
+const HomeScreen: NavigationComponent = ({ componentId }) => {
   const { data, refetch, refetching } = useQuery<ListShelfsQuery>(listShelfs);
 
   useNavigationButtonPress(e => {
@@ -48,7 +43,6 @@ const HomeScreen: React.FunctionComponent<HomeScreenProps> = ({
   );
 };
 
-// @ts-ignore
 HomeScreen.options = () => ({
   topBar: {
     title: {

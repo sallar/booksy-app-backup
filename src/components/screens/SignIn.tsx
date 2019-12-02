@@ -11,17 +11,14 @@ import { navigateTo, goToHome } from '../../navigation';
 
 // @ts-ignore
 import Illustration from '../../../assets/ui/book-shop.svg';
+import { NavigationComponent } from '../../types/navigation';
 
 const schema = yup.object().shape({
   username: yup.string().required('Username is required.'),
   password: yup.string().required('Password is required.'),
 });
 
-interface SignInProps {
-  componentId: string;
-}
-
-const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
+const SignIn: NavigationComponent = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const usernameRef = React.useRef<any>();
   const passwordRef = React.useRef<any>();
@@ -108,7 +105,6 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ componentId }) => {
   );
 };
 
-// @ts-ignore
 SignIn.options = () => ({
   topBar: {
     title: {

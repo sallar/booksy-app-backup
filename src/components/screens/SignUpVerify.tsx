@@ -8,15 +8,15 @@ import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
 import { navigateToRoot } from '../../navigation';
 import { SIGN_IN_SCREEN } from './constants';
+import { NavigationComponent } from '../../types/navigation';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
   code: yup.number().required(),
 });
 
-const SignUpVerify: React.FunctionComponent<{
+const SignUpVerify: NavigationComponent<{
   username: string;
-  componentId: string;
 }> = ({ componentId, username = '' }) => {
   const usernameRef = React.useRef<any>();
   const codeRef = React.useRef<any>();
@@ -97,7 +97,6 @@ const SignUpVerify: React.FunctionComponent<{
   );
 };
 
-//@ts-ignore
 SignUpVerify.options = () => ({
   topBar: {
     title: {

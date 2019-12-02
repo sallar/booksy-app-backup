@@ -8,7 +8,8 @@ import * as yup from 'yup';
 import { globalStyles } from '../../styles/global';
 import { Navigation } from 'react-native-navigation';
 import { SIGN_UP_VERIFY_SCREEN } from './constants';
-import { showModal, navigateTo } from '../../navigation';
+import { navigateTo } from '../../navigation';
+import { NavigationComponent } from '../../types/navigation';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -19,11 +20,7 @@ const schema = yup.object().shape({
     .required(),
 });
 
-interface SignUpProps {
-  componentId: string;
-}
-
-const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
+const SignUp: NavigationComponent = ({ componentId }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const usernameRef = React.useRef<any>();
   const passwordRef = React.useRef<any>();
@@ -146,7 +143,6 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ componentId }) => {
   );
 };
 
-// @ts-ignore
 SignUp.options = () => ({
   topBar: {
     title: {
