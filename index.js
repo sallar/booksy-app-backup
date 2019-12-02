@@ -2,10 +2,12 @@
  * @format
  */
 import { Navigation } from 'react-native-navigation';
+import { Appearance } from 'react-native-appearance';
 import Amplify from '@aws-amplify/core';
 import { MemoryStorageNew } from './src/StorageService';
 import { registerScreens } from './src/components/screens';
 import { AUTH_LOADING_SCREEN } from './src/components/screens/constants';
+import { getThemeColors } from './src/styles/colors';
 
 import config from './aws-exports.js';
 
@@ -15,10 +17,12 @@ Amplify.configure({
 });
 registerScreens();
 
-Navigation.events().registerAppLaunchedListener(() => {
+const setThemeOptions = theme => {
+  const colors = getThemeColors(theme);
+
   Navigation.setDefaultOptions({
     layout: {
-      backgroundColor: '#222B45',
+      backgroundColor: colors.backgroundColor,
     },
     topBar: {
       visible: true,
@@ -26,14 +30,14 @@ Navigation.events().registerAppLaunchedListener(() => {
       background: {
         translucent: true,
       },
-      rightButtonColor: '#fff',
-      leftButtonColor: '#fff',
+      rightButtonColor: colors.buttonColor,
+      leftButtonColor: colors.buttonColor,
     },
     bottomTab: {
-      selectedIconColor: '#ffffff',
-      iconColor: '#cccccc',
-      textColor: '#cccccc',
-      selectedTextColor: '#ffffff',
+      selectedIconColor: colors.buttonColor,
+      iconColor: colors.inactiveButtonColor,
+      textColor: colors.inactiveButtonColor,
+      selectedTextColor: colors.buttonColor,
     },
     bottomTabs: {
       translucent: true,
@@ -53,4 +57,12 @@ Navigation.events().registerAppLaunchedListener(() => {
       },
     },
   });
+};
+
+Appearance.addChangeListener(({ colorScheme }) => {
+  setThemeOptions(colorScheme);
+});
+
+Navigation.events().registerAppLaunchedListener(() => {
+  setThemeOptions(Appearance.getColorScheme());
 });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
+import { Appearance, useColorScheme } from 'react-native-appearance';
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
+import { AppearanceProvider } from 'react-native-appearance';
 import { mapping, light, dark } from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
@@ -39,12 +41,14 @@ export const registerScreens = () => {
     Navigation.registerComponent(
       key,
       () => props => (
-        <>
+        <AppearanceProvider>
           <IconRegistry icons={EvaIconsPack} />
-          <ApplicationProvider mapping={mapping} theme={dark}>
+          <ApplicationProvider
+            mapping={mapping}
+            theme={Appearance.getColorScheme() === 'dark' ? dark : light}>
             <ScreenComponent {...props} />
           </ApplicationProvider>
-        </>
+        </AppearanceProvider>
       ),
       () => ScreenComponent,
     );

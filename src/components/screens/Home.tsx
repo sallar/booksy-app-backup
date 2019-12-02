@@ -1,14 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { useNavigationButtonPress } from 'react-native-navigation-hooks';
-import { ListItem, Icon, Layout } from 'react-native-ui-kitten';
+import { ListItem, Icon } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { listShelfs } from '../../graphql/queries';
 import { ListShelfsQuery } from '../../API';
 import { useQuery } from '../../hooks/query';
 import { showModal } from '../../navigation';
 import { ADD_SHELF_SCREEN } from './constants';
-import { Navigation } from 'react-native-navigation';
 import { NavigationComponent } from '../../types/navigation';
 
 const HomeScreen: NavigationComponent = ({ componentId }) => {
@@ -22,9 +21,9 @@ const HomeScreen: NavigationComponent = ({ componentId }) => {
 
   if (!data) {
     return (
-      <Layout style={globalStyles.contentContainer}>
+      <View style={globalStyles.contentContainer}>
         <ActivityIndicator />
-      </Layout>
+      </View>
     );
   }
 
