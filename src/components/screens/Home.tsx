@@ -1,7 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+import TableView from 'react-native-tableview';
 import { useNavigationButtonPress } from 'react-native-navigation-hooks';
-import { ListItem, Icon } from 'react-native-ui-kitten';
 import { globalStyles } from '../../styles/global';
 import { listShelfs } from '../../graphql/queries';
 import { ListShelfsQuery } from '../../API';
@@ -27,18 +27,22 @@ const HomeScreen: NavigationComponent = ({ componentId }) => {
     );
   }
 
-  const renderIcon = (style: any) => <Icon {...style} name="book" />;
-
   return (
-    <FlatList
-      onRefresh={refetch}
-      refreshing={refetching}
-      data={data.listShelfs?.items ?? []}
-      keyExtractor={(_, index) => `${index}`}
-      renderItem={({ item }: any) => (
-        <ListItem title={item.name} icon={renderIcon} />
-      )}
-    />
+    <View style={globalStyles.flexView}>
+      <TableView
+        style={globalStyles.flexView}
+        canRefresh
+        refreshing={refetching}
+        onRefresh={refetch}>
+        <TableView.Section>
+          {data.listShelfs?.items?.map(item => (
+            <TableView.Item transparent key={item!.id}>
+              {item!.name}
+            </TableView.Item>
+          ))}
+        </TableView.Section>
+      </TableView>
+    </View>
   );
 };
 
@@ -47,10 +51,16 @@ HomeScreen.options = () => ({
     title: {
       text: 'Booksy',
     },
+    largeTitle: {
+      visible: true,
+    },
+    searchBar: true,
+    searchBarHiddenWhenScrolling: true,
+    searchBarPlaceholder: 'Search your library',
     rightButtons: [
       {
         id: 'add-shelf',
-        icon: require('../../../assets/ui/nav-add-shelf.png'),
+        icon: require('../../../assets/ui/add.png'),
       },
     ],
   },

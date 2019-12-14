@@ -20,4 +20,7 @@ export const globalStyles = StyleSheet.create({
   spacer: {
     marginTop: 8,
   },
+  transparent: {
+    backgroundColor: 'transparent',
+  },
 });

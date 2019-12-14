@@ -8,7 +8,7 @@ type ThemeColors = typeof light;
 
 const dark: ThemeColors = {
   inactiveButtonColor: '#ccc',
-  buttonColor: '#fff',
+  buttonColor: 'rgb(10,132,255)',
   backgroundColor: '#000',
 };
 

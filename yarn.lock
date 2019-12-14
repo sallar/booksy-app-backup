@@ -6350,10 +6350,10 @@ react-native-navigation-hooks@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-native-navigation-hooks/-/react-native-navigation-hooks-3.0.1.tgz#c1405ace980c8cb1d9a8766bc8ff9a4a6a327a3a"
   integrity sha512-J8+ZANlIWxcwjLmSLcpeeuf7cNnEm69vxs0yrlMwaJQDgXTT+JvmVdjqBXJ+X+yx89ZqjUtoqrZKlAspzOS4dA==
 
-react-native-navigation@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-4.0.1.tgz#7fa45b5b61b40a9afa5447b4fd2a2acf639afa8b"
-  integrity sha512-L4S5ZKgIUCDEbTLY04aQlzH2FA3u3qC42yowuxN9jtaXCkHmtmE3r3yqGv7DJHJ/bBlaFO+NUAyefjOoahPAyw==
+react-native-navigation@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-4.0.5.tgz#7cf6f5c5b33aa79cc518d4c2135372c50c69d4b1"
+  integrity sha512-BJmdSyjqU8J1M8t8EKIfaTJjvwgsoEfZ6pgxErXaIkLz8ggyHtmH1wpuQBwSK8Ya0OjpLH0WFcy42v13JgjMVw==
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.17.x"
@@ -6376,6 +6376,13 @@ react-native-svg@^9.13.3:
   dependencies:
     css-select "^2.0.2"
     css-tree "^1.0.0-alpha.37"
+
+react-native-tableview@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-tableview/-/react-native-tableview-3.0.0.tgz#de55c837d3a25a821f8d043007d184e87096ec90"
+  integrity sha512-EnCNq5uKLEFsg3n7ykEvbo++sW/zUtg4cfJKYOf45s2pZoSAWvBqAjyx4G7uqhaoCLcjjDr8JiHlY62oaU7eUA==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-native-ui-kitten@^4.2.0:
   version "4.2.0"

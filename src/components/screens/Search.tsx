@@ -20,6 +20,9 @@ SearchScreen.options = () => ({
     title: {
       text: 'Find Books',
     },
+    largeTitle: {
+      visible: true,
+    },
   },
 });
 
